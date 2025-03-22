@@ -12,15 +12,6 @@ function uniqueValue($table, $colomn, $value, $id = 0){
     $count = $stmt->rowCount();
     return $count ;
 }
-// function uniqueExcept($table, $colomn, $value, $id){
-//     global $pdo ;
-//     $stmt = $pdo->prepare("SELECT * FROM $table WHERE $colomn = ? 
-//                            EXCEPT SELECT * FROM $table WHERE id = $id");
-//     $stmt->execute(array($value));
-//     $stmt->fetch();
-//     $count = $stmt->rowCount();
-//     return $count ;
-// }
 
 //get sub cats for certain category by id
 function getSubCats($id){
