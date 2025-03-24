@@ -1,144 +1,158 @@
 /* start main */
 body {
-    background-color:beige;
-    font-size: 16px;
+  background-color: beige;
+  font-size: 16px;
 }
 /* end main */
 /* start login page */
-.login{
-    margin:60px;
-    padding:20px;
-    background-color:#7d9a744f;
+.log {
+  max-width: 1475.6px;
+  height: 740.4px;
+  background-image: url("../images/background.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
 }
-h1{
-    font-weight: bold;
+.login {
+  margin: 60px;
+  padding: 20px;
+  background-color: #7d9a744f;
 }
-.login .btn{
-    background-color: #7D9A74;
-    padding: 10px 100px;
-    margin-left: 353.6px;
-    color:black;
+h1 {
+  font-weight: bold;
+}
+.login .btn {
+  background-color: #7d9a74;
+  padding: 10px 100px;
+  margin-left: 511.8px;
+  color: black;
 }
 
-.errors{
-    margin: 1px;
-    text-align: center;
-    margin-top: 5px;
+.errors {
+  margin: 1px;
+  text-align: center;
+  margin-top: 5px;
 }
 /* end login page */
 /* start dashboard page */
-.dashboard .card{
-    margin: 10px;
-    padding: 20px;
-    width: 300px;
-    height: 170px;
-    background-color: #e2efdb; 
+.dashboard .card {
+  margin: 10px;
+  padding: 20px;
+  width: 300px;
+  height: 170px;
+  background-color: #e2efdb;
 }
-.dashboard .card .fa-solid{
-    font-size: 50px;
+.dashboard .card .fa-solid {
+  font-size: 50px;
 }
-.dashboard .card .info{
-    font-size: 20px;
-    margin-top: 5px;
-    font-weight: bold;
+.dashboard .card .info {
+  font-size: 20px;
+  margin-top: 5px;
+  font-weight: bold;
 }
-.dashboard .card a{
-    text-decoration: none;
-    color: #7d9a74;
-    border-color: black;
-    font-size: 50px;
-    font-weight: bolder;
+.dashboard .card a {
+  text-decoration: none;
+  color: #7d9a74;
+  border-color: black;
+  font-size: 50px;
+  font-weight: bolder;
 }
-.dashboard .card a:hover{
-    color: #95c879;
-    text-decoration: underline;
+.dashboard .card a:hover {
+  color: #95c879;
+  text-decoration: underline;
 }
 /* end dashboard page */
 /* start categories table */
-.slash:last-of-type span{
-    display:none;
+.slash:last-of-type span {
+  display: none;
 }
 /* end categories table */
 
 /* start show product */
 .show .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 500px;
-    margin: auto;
-    text-align: left;
-    font-family: arial;
-} 
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  margin: auto;
+  text-align: left;
+  font-family: arial;
+}
 .show .price {
-    color: grey;
-    font-size: 22px;
-    text-align: center;
-    background-color:yellow;
-
-} 
+  color: grey;
+  font-size: 22px;
+  text-align: center;
+  background-color: yellow;
+}
 .show .card button {
-    border: none;
-    outline: 0;
-    padding: 12px;
-    color: black;
-    background-color:yellow;
-    text-align: center;
-    cursor: pointer;
-    width: 100%;
-    font-size: 18px;
-}  
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: black;
+  background-color: yellow;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
 .show .card button:hover {
-    opacity: 0.7;
+  opacity: 0.7;
 }
-.des .card{
-    margin-top:20px;
-    max-height: 500px;
-    padding:10px;
+.des .card {
+  margin-top: 20px;
+  max-height: 500px;
+  padding: 10px;
 }
-.show span{
+.show span {
   font-weight: bold;
   color: #7d9a74;
   font-style: italic;
   font-size: 17px;
   margin-left: 20px;
 }
-.show .btn{
-    border-radius: 50px;
-    font-size: 25px;
-    margin-top: 10px;
+.show .btn {
+  border-radius: 50px;
+  font-size: 25px;
+  margin-top: 10px;
 }
 /* end show product */
+/* start create product */
+.create-prod .filterDiv{
+  display: none; 
+}
+.create-prod .show {
+  display: block;
+}
+/* end create product */
 /* start show admin & user */
 .user .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    margin: auto;
-    text-align: center;
-    font-family: arial;
-}  
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
 .user .price {
-    color: #000;
-    font-size: 22px;
-} 
+  color: #000;
+  font-size: 22px;
+}
 .user .card .buttons {
-    border: none;
-    outline: 0;
-    padding: 12px;
-    color: white;
-    background-color: #7d9a74;
-    text-align: center;
-    width: 100%;
-    font-size: 18px;
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #7d9a74;
+  text-align: center;
+  width: 100%;
+  font-size: 18px;
 }
-.user .card .buttons .btn{
-    background-color: white;
-    border-radius: 50px;
-    font-size: 20px;
+.user .card .buttons .btn {
+  background-color: white;
+  border-radius: 50px;
+  font-size: 20px;
 }
-.user .card .buttons .btn:hover{
-    background-color: #f09797;
+.user .card .buttons .btn:hover {
+  background-color: #f09797;
 }
-.user img{
-    border-radius: 50%;
+.user img {
+  border-radius: 50%;
 }
 /* start show admin & user */
-

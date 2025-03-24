@@ -1,6 +1,9 @@
 <?php 
 include "init.php";
-
+if(isset($_SESSION['admin_id'])){
+  header('Location: dashboard.php');
+  exit;
+}
 if($_SERVER['REQUEST_METHOD']=='POST'){
     $email = $_POST['email'];
     $password = sha1($_POST['password']);
@@ -37,7 +40,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     }
 }63
 ?>
-<div class="container">
+<div class="container log">
     <div class="row">
         <div class="col-md-12">
             <h1 class="text-center" style="margin:10px;">Admin Login</h1>

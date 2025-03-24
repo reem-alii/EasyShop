@@ -80,7 +80,7 @@ if(isset($_SESSION['admin_id'])){
    }
 
 ?>
-<div class="container">
+<div class="container create-prod">
     <div class="row">
       <div class="col-md-1">
       </div>
@@ -115,26 +115,27 @@ if(isset($_SESSION['admin_id'])){
               <?php 
                  $cats = getCats() ;
                  foreach ($cats as $cat) {
-                    echo "<option class='prodcat' value='".$cat['id']."'>".$cat['name']."</option>";
+                    echo "<option class='prodcat' onclick=\"filterSelection('".$cat['id']."')\" value='".$cat['id']."'>".$cat['name']."</option>";
                  }
                ?>
             </select>
     </div>
   </div>
-  <!--<div class="form-group row">
+  <div class="form-group row">
     <label for="subcat" class="col-sm-2 col-form-label">Sub Cat.(optional):</label>
         <div class="col-sm-8">
             <select name="subcat_id" id="subcat">
                 <div class="prodsubcats">
               <?php 
-                 foreach ($data as $subcat) {
-                    echo "<option  value='".$subcat['id']."'>".$subcat['name']."</option>";
+                 $subcats = allSubCats();
+                 foreach ($subcats as $sub) {
+                    echo "<option  class='filterDiv ".$sub['parent_id']."' value='".$sub['id']."'>".$sub['name']."</option>";
                  }
                ?>
                </div>
             </select>
     </div>
-  </div> -->
+  </div> 
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Made in</label>
     <div class="col-sm-8">
@@ -164,3 +165,36 @@ include "../includes/templates/footer.php";
   header("Location: index.php");
 }
 ?>
+<script>
+filterSelection("all")
+function filterSelection(cat) {
+  var x, i;
+  x = document.getElementsByClassName("filterDiv");
+  if (cat == "all") cat = "";
+  for (i = 0; i < x.length; i++) {
+    removeClass(x[i], "show");
+    if (x[i].className.indexOf(cat) > -1) addClass(x[i], "show");
+  }
+}
+
+function addClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+  }
+}
+
+function removeClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    while (arr1.indexOf(arr2[i]) > -1) {
+      arr1.splice(arr1.indexOf(arr2[i]), 1);     
+    }
+  }
+  element.className = arr1.join(" ");
+}
+</script>

@@ -49,13 +49,10 @@ function getTotalProducts(){
     return $stmt->fetchColumn();
 }
 
-// if($_SERVER['REQUEST_METHOD'] == 'POST'){
-//    function getSubCats($id){
-//        global $pdo ;
-//        $stmt = $pdo->prepare("SELECT * FROM categories WHERE parent_id = ?");
-//        $stmt->execute(array($id));
-//        //return $stmt->fetchAll();
-//        //return response()->json($stmt->fetchAll());
-//        return json_encode($stmt->fetchAll());
-//    }
-// }
+
+function allSubCats(){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM categories WHERE parent_id <> 0");
+    $stmt->execute();
+    return $stmt->fetchAll();     
+}
