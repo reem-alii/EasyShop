@@ -2,8 +2,8 @@
 session_start();
 if(isset($_SESSION['admin_id'])){
   include "init.php";
-  //error_reporting(E_ALL);
-  //ini_set('display_errors',1);
+  error_reporting(E_ALL);
+  ini_set('display_errors',1);
    if($_SERVER['REQUEST_METHOD']== 'POST'){
     $name = $_POST['name'];
     $des = $_POST['description'];
@@ -38,7 +38,7 @@ if(isset($_SESSION['admin_id'])){
         $errors_array [] = "image size must be less than 400 KB";
         $imgerror .= "image size is too large/";
       }
-      $image_path = "../layouts/uploads/" . basename($image["name"]);
+      $image_path = "../../public/images/" . basename($image["name"]);
       $imgtype =  strtolower(pathinfo($image_path,PATHINFO_EXTENSION));
       if (!in_array($imgtype, ['jpg', 'png', 'jpeg'])){
         $errors_array [] = "image must be in jpg, png or jpeg format";

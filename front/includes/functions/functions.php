@@ -43,3 +43,10 @@ function getCats(){
     $stmt->execute();
     return $stmt->fetchAll();
 }
+// get all products
+function getProducts(){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM products");
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
