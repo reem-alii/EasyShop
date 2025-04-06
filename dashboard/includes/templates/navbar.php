@@ -23,6 +23,9 @@ session_start();
       <li class="nav-item active">
         <a class="nav-link" href="../pages/products_index.php">Products</a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="../pages/orders_index.php">Orders</a>
+      </li>
       <li class="nav-item active dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Account

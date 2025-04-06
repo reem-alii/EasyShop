@@ -1,19 +1,74 @@
 <?php
 include "init.php";
 include "../includes/templates/navbar.php";
-$products = getProducts() ;
+error_reporting(E_ALL);
+ini_set('display_errors',1);
+if($_SERVER['REQUEST_METHOD'] == "POST"){
+  if(isset($_SESSION['user_id'])){
+    $user_id = $_POST['user_id'];
+    $product_id = $_POST['product_id'];
+    $product_price = $_POST['product_price'];
+    $status = addToCart($user_id, $product_id, $product_price);
+    if($status){
+        echo "<div class='alert alert-success text-center'>Product added to cart successfully</div>";
+    }else{
+        echo "<div class='alert alert-danger text-center'>Failed to add product to cart</div>";
+    }
+  }else{
+    $product = $_POST['product_id']; 
+    if(!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+    if(!in_array($product,$_SESSION['cart'],true)){
+        $_SESSION['cart'][] = $product ;
+    } 
+    echo "<div class='alert alert-success text-center'>Product added to cart successfully</div>";
+  }
 
+}
+$cat_id = intval($_GET['catid']);
+$cat = getCatById($cat_id);
+$subcats = NULL;
+if(!empty($cat)){
+    $products = getProductsByCatId($cat_id) ;
+    $subcats = getSubCats($cat_id);
+}else{
+    $products = getAllProducts() ;
+}
+if($subcats){
 ?>
-<div class="container products d-flex justify-content-center mt-50 mb-50">
-            
+<!-- Second Navbar -->
+<div class="header-dark prod">
+            <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
+                    <div class="collapse navbar-collapse"
+                        id="navcol-1">
+                        <ul class="nav navbar-nav" style="margin-left: 500px;">
+                          <h1 class="text-center navbar-brand"><?php echo $cat['name'] ?>:</h1>
+                            <li class="nav-item" onclick="filterSelection('all')" role="presentation" style="margin: 5px;background-color: #4b4b4e;border-radius: 20px;"><a class="nav-link" >All</a></li>
+                            <?php foreach($subcats as $sub) { 
+                                     echo '<li class="nav-item" onclick="filterSelection(\''.$sub['name'].'\')" role="presentation" style="margin: 5px;background-color: #4b4b4e;border-radius: 20px;"><a class="nav-link">'.$sub['name'].'</a></li>';
+                                   }
+                             ?>
+                        </ul>
+                        <form class="form-inline mr-auto" target="_self">
+                           <!-- <div class="form-group"><label for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" name="search" id="search-field"></div>-->
+                        </form>
+                </div>
+            </nav>
+<!-- /second navbar -->
+ <?php } ?>
+ <div class="products">
+<div class="container products d-flex justify-content-center mt-50 mb-50">           
         <div class="row">
-            <?php foreach($products as $product){ ?>
-           <div class="col-md-4 mt-2">          
+          <?php foreach($products as $product){
+              $sub = getCatById(intval($product['subcat_id'])) ;
+             ?>
+            <div class="col-md-4 mt-2 filterDiv <?php echo $sub['name'] ?>">          
                 <div class="card">
                     <div class="card-body" style="background-color: #807f84;">
                         <div class="card-img-actions">
                            <!--<img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1562074043/234.png" class="card-img img-fluid" width="96" height="350" alt="">-->
-                           <img src="<?php echo $product['Image']; ?>" class="card-img img-fluid" width="96" height="350" alt="">               
+                           <img src="<?php echo $product['Image']; ?>" class="card-img img-fluid" width="100%" alt="">               
                         </div>
                     </div>
                     <div class="card-body text-center" style=" background-color: #4b4b4e;">
@@ -25,240 +80,82 @@ $products = getProducts() ;
                         </div>
                         <h3 class="mb-0 font-weight-semibold" style="color:white;">$<?php echo $product['price'] ?></h3>
                             <div class="text-muted mb-3" style="color: #a7b3bd !important">34 reviews</div>
-                            <a href="#" class="btn bg-cart" style=" background-color:orange; color:#fff;"><i class="fa fa-cart-plus mr-2"></i> Add to cart</a>                
+                          
+                            <form action="products.php?catid=<?php echo $cat_id ?>" method="POST" style="display:flex;"> 
+                              <?php if(isset($_SESSION['user_id'])) { ?>
+                                <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>">
+                              <?php } ?>
+                                <input type="hidden" name="product_id" value="<?php echo $product['id'] ?>">
+                                <input type="hidden" name="product_price" value="<?php echo $product['price'] ?>">
+                              <button type="submit" class="btn bg-cart" style="margin-left: 65px;"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button> 
+                            </form>
                     </div>
                 </div>                        
             </div> 
             <?php } ?>
-
-
-           <div class="col-md-4 mt-2">            
-                
+            <div class="col-md-4 mt-2">          
                 <div class="card">
-                                    <div class="card-body">
-                                        <div class="card-img-actions">
-                                            
-                                                <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1562074043/234.png" class="card-img img-fluid" width="96" height="350" alt="">
-                                              
-                                           
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body bg-light text-center">
-                                        <div class="mb-2">
-                                            <h6 class="font-weight-semibold mb-2">
-                                                <a href="#" class="text-default mb-2" data-abc="true">Toshiba Notebook with 500GB HDD & 8GB RAM</a>
-                                            </h6>
-
-                                            <a href="#" class="text-muted" data-abc="true">Laptops & Notebooks</a>
-                                        </div>
-
-                                        <h3 class="mb-0 font-weight-semibold">$250.99</h3>
-
-                                        <div>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                        </div>
-
-                                        <div class="text-muted mb-3">34 reviews</div>
-
-                                        <button type="button" class="btn bg-cart"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
-
-                                        
-                                    </div>
-                                </div>
-
-
-                            
-                             
-           </div> 
-
-           <div class="col-md-4 mt-2">
-            
-                
+                    <div class="card-body" style="background-color: #807f84;">
+                        <div class="card-img-actions">
+                           <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1562074043/234.png" class="card-img img-fluid" alt="">
+                        </div>
+                    </div>
+                    <div class="card-body text-center" style=" background-color: #4b4b4e;">
+                        <div class="mb-2">
+                        <h6 class="font-weight-semibold mb-2">
+                            <a href="#" class="text-default mb-2" data-abc="true">Toshiba Notebook with 500GB</a>
+                        </h6>
+                            <a href="#" class="text-muted" style="color: #a7b3bd !important" data-abc="true">Laptops & Notebooks</a>
+                        </div>
+                        <h3 class="mb-0 font-weight-semibold" style="color:white;">$250.99</h3>
+                            <div class="text-muted mb-3" style="color: #a7b3bd !important">34 reviews</div>
+                            <a href="#" class="btn bg-cart" ><i class="fa fa-cart-plus mr-2"></i> Add to cart</a>                
+                    </div>
+                </div>                        
+            </div> 
+            <div class="col-md-4 mt-2">          
                 <div class="card">
-                                    <div class="card-body">
-                                        <div class="card-img-actions">
-                                            
-                                                <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1562074043/234.png" class="card-img img-fluid" width="96" height="350" alt="">
-                                              
-                                           
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body bg-light text-center">
-                                        <div class="mb-2">
-                                            <h6 class="font-weight-semibold mb-2">
-                                                <a href="#" class="text-default mb-2" data-abc="true">Toshiba Notebook with 500GB HDD & 8GB RAM</a>
-                                            </h6>
-
-                                            <a href="#" class="text-muted" data-abc="true">Laptops & Notebooks</a>
-                                        </div>
-
-                                        <h3 class="mb-0 font-weight-semibold">$250.99</h3>
-
-                                        <div>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                        </div>
-
-                                        <div class="text-muted mb-3">34 reviews</div>
-
-                                        <button type="button" class="btn bg-cart"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
-
-                                        
-                                    </div>
-                                </div>
-
-
-                            
-                             
-           </div> 
-
-
-           <div class="col-md-4 mt-2">
-            
-                
+                    <div class="card-body" style="background-color: #807f84;">
+                        <div class="card-img-actions">
+                           <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1562074043/234.png" class="card-img img-fluid" alt="">
+                        </div>
+                    </div>
+                    <div class="card-body text-center" style=" background-color: #4b4b4e;">
+                        <div class="mb-2">
+                        <h6 class="font-weight-semibold mb-2">
+                            <a href="#" class="text-default mb-2" data-abc="true">Toshiba Notebook with 500GB</a>
+                        </h6>
+                            <a href="#" class="text-muted" style="color: #a7b3bd !important" data-abc="true">Laptops & Notebooks</a>
+                        </div>
+                        <h3 class="mb-0 font-weight-semibold" style="color:white;">$250.99</h3>
+                            <div class="text-muted mb-3" style="color: #a7b3bd !important">34 reviews</div>
+                            <a href="#" class="btn bg-cart" ><i class="fa fa-cart-plus mr-2"></i> Add to cart</a>                
+                    </div>
+                </div>                        
+            </div> 
+            <div class="col-md-4 mt-2">          
                 <div class="card">
-                                    <div class="card-body">
-                                        <div class="card-img-actions">
-                                            
-                                                <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1562074043/234.png" class="card-img img-fluid" width="96" height="350" alt="">
-                                              
-                                           
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body bg-light text-center">
-                                        <div class="mb-2">
-                                            <h6 class="font-weight-semibold mb-2">
-                                                <a href="#" class="text-default mb-2" data-abc="true">Toshiba Notebook with 500GB HDD & 8GB RAM</a>
-                                            </h6>
-
-                                            <a href="#" class="text-muted" data-abc="true">Laptops & Notebooks</a>
-                                        </div>
-
-                                        <h3 class="mb-0 font-weight-semibold">$250.99</h3>
-
-                                        <div>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                        </div>
-
-                                        <div class="text-muted mb-3">34 reviews</div>
-
-                                        <button type="button" class="btn bg-cart"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
-
-                                        
-                                    </div>
-                                </div>
-
-
-                            
-                             
-           </div> 
-
-
-           <div class="col-md-4 mt-2">
-            
-                
-                <div class="card">
-                                    <div class="card-body">
-                                        <div class="card-img-actions">
-                                            
-                                                <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1562074043/234.png" class="card-img img-fluid" width="96" height="350" alt="">
-                                              
-                                           
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body bg-light text-center">
-                                        <div class="mb-2">
-                                            <h6 class="font-weight-semibold mb-2">
-                                                <a href="#" class="text-default mb-2" data-abc="true">Toshiba Notebook with 500GB HDD & 8GB RAM</a>
-                                            </h6>
-
-                                            <a href="#" class="text-muted" data-abc="true">Laptops & Notebooks</a>
-                                        </div>
-
-                                        <h3 class="mb-0 font-weight-semibold">$250.99</h3>
-
-                                        <div>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                        </div>
-
-                                        <div class="text-muted mb-3">34 reviews</div>
-
-                                        <button type="button" class="btn bg-cart"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
-
-                                        
-                                    </div>
-                                </div>
-
-
-                            
-                             
-           </div> 
-
-
-           <div class="col-md-4 mt-2">
-            
-                
-                <div class="card">
-                                    <div class="card-body">
-                                        <div class="card-img-actions">
-                                            
-                                                <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1562074043/234.png" class="card-img img-fluid" width="96" height="350" alt="">
-                                              
-                                           
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body bg-light text-center">
-                                        <div class="mb-2">
-                                            <h6 class="font-weight-semibold mb-2">
-                                                <a href="#" class="text-default mb-2" data-abc="true">Toshiba Notebook with 500GB HDD & 8GB RAM</a>
-                                            </h6>
-
-                                            <a href="#" class="text-muted" data-abc="true">Laptops & Notebooks</a>
-                                        </div>
-
-                                        <h3 class="mb-0 font-weight-semibold">$250.99</h3>
-
-                                        <div>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                           <i class="fa fa-star star"></i>
-                                        </div>
-
-                                        <div class="text-muted mb-3">34 reviews</div>
-
-                                        <button type="button" class="btn bg-cart"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
-
-                                        
-                                    </div>
-                                </div>
-
-
-                            
-                             
-           </div> 
-
-
-
-
-
+                    <div class="card-body" style="background-color: #807f84;">
+                        <div class="card-img-actions">
+                           <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1562074043/234.png" class="card-img img-fluid" alt="">
+                        </div>
+                    </div>
+                    <div class="card-body text-center" style=" background-color: #4b4b4e;">
+                        <div class="mb-2">
+                        <h6 class="font-weight-semibold mb-2">
+                            <a href="#" class="text-default mb-2" data-abc="true">Toshiba Notebook with 500GB</a>
+                        </h6>
+                            <a href="#" class="text-muted" style="color: #a7b3bd !important" data-abc="true">Laptops & Notebooks</a>
+                        </div>
+                        <h3 class="mb-0 font-weight-semibold" style="color:white;">$250.99</h3>
+                            <div class="text-muted mb-3" style="color: #a7b3bd !important">34 reviews</div>
+                            <a href="#" class="btn bg-cart" ><i class="fa fa-cart-plus mr-2"></i> Add to cart</a>                
+                    </div>
+                </div>                        
+            </div> 
         </div>
-    </div>
+ </div>
+</div>
+            </div>
 <?php
 include "../includes/templates/footer.php";

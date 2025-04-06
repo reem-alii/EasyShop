@@ -37,16 +37,143 @@ function checkUniqueValue($table, $column, $value){
     return $count ;
 }
 // gel all categories
-function getCats(){
+function getAllCats(){
     global $pdo ;
     $stmt = $pdo->prepare("SELECT * FROM categories WHERE parent_id = 0");
     $stmt->execute();
     return $stmt->fetchAll();
 }
 // get all products
-function getProducts(){
+function getAllProducts(){
     global $pdo ;
     $stmt = $pdo->prepare("SELECT * FROM products");
     $stmt->execute();
     return $stmt->fetchAll();
 }
+// get cat by id
+function getCatById($id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM categories WHERE id = $id");
+    $stmt->execute();
+    $cat = $stmt->fetch();
+    return $cat;
+}
+// get products by cat id 
+function getProductsByCatId($id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM products WHERE cat_id = $id");
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+// get subCats by cat id
+function getSubCats($id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM categories WHERE parent_id = $id");
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+// profile Update Validation
+function profileValidation($fname , $lname, $phone, $address, &$errors_array){
+    if (empty($fname) || strlen($fname) < 3 || strlen($fname) > 20){
+        $errors_array [] = "First Name is required and must be between 3 and 20 characters";
+    }
+    if (empty($lname) || strlen($lname) < 3 || strlen($lname) > 20){
+        $errors_array [] = "Last Name is required and must be between 3 and 20 characters";
+    }
+    if (empty($phone) || strlen($phone) < 10 || strlen($phone) > 20){
+        $errors_array [] = "Phone number is required and must be between 10 and 20 characters";
+    }
+    if (empty($address) || strlen($address) < 5){
+        $errors_array [] = "Address is required and must be valid";
+    }
+    return $errors_array;
+}
+// Rename Duplicated Image
+function renameDuplicate($imagePath){
+    $extension = pathinfo($imagePath, PATHINFO_EXTENSION);
+    $imagename = pathinfo($imagePath, PATHINFO_FILENAME);
+    $newname = $imagename . time() . '.' . $extension;
+    $image_path = "../../public/images/" . $newname;
+    return $image_path;
+}
+// Validate Profile Image
+function validateImage($image, &$imgerrors){
+    if ($image["size"] > 400000) {
+        $imgerrors .= "image size is too large/";
+    }
+    $image_path = "../../public/images/" . basename($image["name"]);
+    $imgtype =  strtolower(pathinfo($image_path,PATHINFO_EXTENSION));
+    if (!in_array($imgtype, ['jpg', 'png', 'jpeg'])){
+      $imgerrors .= "Invalid, only JPG, JPEG, PNG files are allowed/";
+    }
+    if (file_exists($image_path)) {
+      $image_path = renameDuplicate($image_path);
+    }
+    if(!$imgerrors){
+        if(!move_uploaded_file($image["tmp_name"], $image_path)) $imgerrors .= "image failed to upload/";
+    }
+    return $image_path;
+}
+// Validate Change Password 
+function validatePassword($pass, $repass, &$passerror){
+    if (empty($pass) || strlen($pass) < 6 || strlen($pass) > 20){
+        $passerror .= "Password is required and must be between 6 and 20 characters/";
+    }
+    if (empty($repass) || $repass != $pass ){
+        $passerror .= "Password and Confirm Password must match";
+    }
+    return $passerror;
+}
+// get carts
+function findCarts($user_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM carts WHERE user_id = $user_id");
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+// find product by id
+function findProduct($id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM products WHERE id = $id");
+    $stmt->execute();
+    return $stmt->fetch();
+}
+// Add to cart button 
+function addToCart($user_id, $product_id, $product_price){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM carts WHERE product_id = ? ");
+    $stmt->execute([$product_id]);
+    if($stmt->rowCount() == 0 ){
+       $stmt = $pdo->prepare("INSERT INTO carts (user_id, product_id, product_price)
+                              VALUES (:user_id, :product_id, :product_price)");
+       $stmt->execute(array(
+            ':user_id' => $user_id,
+            ':product_id' => $product_id,
+            ':product_price' => $product_price
+        ));
+        return true ;                       
+    }
+    return true ;                       
+}
+//total price of cart 
+function totalPriceCart($user_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT SUM(product_price) FROM carts WHERE user_id = $user_id");
+    $stmt->execute();
+    return $stmt->fetchColumn();
+}
+// remove from cart
+function removeFromCart($id){
+    global $pdo ;
+    $stmt = $pdo->prepare("DELETE FROM carts WHERE id = $id");
+    $stmt->execute();
+}
+// number of cart items
+function countCartItems($user_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM carts WHERE user_id = $user_id");
+    $stmt->execute();
+    return $stmt->fetchColumn();
+}
+// Make order
+function makeOrder($user_id, $order_date, $order_status){}

@@ -1,7 +1,7 @@
 <?php 
 include "init.php" ;
 include "../includes/templates/navbar.php";
-
+if(!isset($_SESSION['user_id'])){
 error_reporting(E_ALL);
 ini_set('display_errors',1);
 if($_SERVER['REQUEST_METHOD'] == "POST"){
@@ -27,6 +27,15 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         // Login
         if(empty($errors_array)){
             if(loginQuery($email, $password)){
+				// Insert cart items into database 
+				if(isset($_SESSION['cart'])) {
+					foreach($_SESSION['cart'] as $cart){
+						$user_id =$_SESSION['user_id'];
+						$product = findProduct($cart);
+						$product_price = $product['price'];
+						$status = addToCart($user_id, $cart, $product_price);
+					}
+				}
                 header('Location: index.php');
                 exit();
             }else{
@@ -109,3 +118,6 @@ if(!empty($errors_array)){
 	</div>
 <?php
 include "../includes/templates/footer.php";
+}else{
+	header("location: index.php");
+}

@@ -2,8 +2,8 @@
 session_start();
 if(isset($_SESSION['admin_id'])){
   include "init.php";
-  //error_reporting(E_ALL);
-  //ini_set('display_errors',1);
+  error_reporting(E_ALL);
+  ini_set('display_errors',1);
    if($_SERVER['REQUEST_METHOD']== 'POST'){
     $id = $_POST['id'];
     $name = $_POST['name'];
@@ -11,8 +11,7 @@ if(isset($_SESSION['admin_id'])){
     $price = intval($_POST['price']);
     $image = $_FILES['image'];
     $cat = $_POST['cat_id'];
-    echo $cat ;
-    //$sub = $_POST['subcat_id'];
+    $sub = $_POST['subcat_id'];
     $country = $_POST['country_made'];
 
     //validation 
@@ -36,40 +35,25 @@ if(isset($_SESSION['admin_id'])){
     //start image validation 
     $imgerror = "";
     if($image){
-      if ($image["size"] > 400000) {
-        $errors_array [] = "image size must be less than 400 KB";
-        $imgerror .= "image size is too large/";
-      }
-      $image_path = "../../public/images/" . basename($image["name"]);
-      $imgtype =  strtolower(pathinfo($image_path,PATHINFO_EXTENSION));
-      if (!in_array($imgtype, ['jpg', 'png', 'jpeg'])){
-        $errors_array [] = "image must be in jpg, png or jpeg format";
-        $imgerror .= "Invalid, only JPG, JPEG, PNG files are allowed/";
-      }
-      if (file_exists($image_path)) {
-        $errors_array [] = "image already exists, change image name";
-        $imgerror .= "image already exists, change image name/";
-      }
-      if(!move_uploaded_file($image["tmp_name"], $image_path)){
-        $errors_array [] = "image failed to upload";
-        $imgerror .= "image failed to upload/" . $image['error'];
-      }
+      $imgerror = "";
+      $image_path = validateImage($image, $errors_array, $imgerror);
     }
     if (empty($errors_array) && $image) {
-      $stmt = $pdo->prepare("UPDATE products SET name = :zname, description = :zdes, price = :zprice, Image = :zimg, country_made = :zcountry, cat_id = :zcat 
+      $stmt = $pdo->prepare("UPDATE products SET name = :zname, description = :zdes, price = :zprice, Image = :zimg, country_made = :zcountry, cat_id = :zcat, subcat_id = :zsub 
       WHERE id = $id");
       $stmt->execute(array(
         'zname'    => $name,
         'zdes'     => $des,
         'zprice'   => $price,
         'zimg'     => $image_path,
-        'zcat'     => $cat,
         'zcountry' => $country,
+        'zcat'     => $cat,
+        'zsub'     => $sub
       ));
       $_POST = [];
       echo "<div class='alert alert-success'>Product Updated successfully</div>";
-    }else{
-    $stmt = $pdo->prepare("UPDATE products SET name = :zname, description = :zdes, price = :zprice, country_made = :zcountry, cat_id = :zcat 
+    }elseif(empty($errors_array)){
+    $stmt = $pdo->prepare("UPDATE products SET name = :zname, description = :zdes, price = :zprice, country_made = :zcountry, cat_id = :zcat, subcat_id = :zsub 
       WHERE id = $id");
       $stmt->execute(array(
         'zname'    => $name,
@@ -77,6 +61,7 @@ if(isset($_SESSION['admin_id'])){
         'zprice'   => $price,
         'zcountry' => $country,
         'zcat'     => $cat,
+        'zsub'     => $sub
       ));
       $_POST = [];
       echo "<div class='alert alert-success'>Product Updated successfully</div>";
@@ -92,7 +77,7 @@ if(isset($_SESSION['admin_id'])){
 ?>
 <div class="container">
  <div class="row">
- <div class="col-md-8">
+ <div class="col-md-8 create-prod">
       <h1 class="text-center">Edit Product</h1>
   <form action="products_edit.php?prodid=<?php echo $row['id'] ;?>" method="POST" enctype="multipart/form-data">
   <div class="form-group row">
@@ -124,7 +109,7 @@ if(isset($_SESSION['admin_id'])){
               <?php 
                  $cats = getCats() ;
                  foreach ($cats as $cat) {
-                    echo "<option class='prodcat' value='".$cat['id']."'" ;
+                    echo "<option class='prodcat' onclick=\"filterSelection('".$cat['id']."')\" value='".$cat['id']."'" ;
                     echo $cat['id'] == $row['cat_id'] ? "selected" : "";
                     echo ">".$cat['name']."</option>";
                  }
@@ -132,20 +117,23 @@ if(isset($_SESSION['admin_id'])){
             </select>
     </div>
   </div>
-  <!--<div class="form-group row">
+  <div class="form-group row">
     <label for="subcat" class="col-sm-2 col-form-label">Sub Cat.(optional):</label>
         <div class="col-sm-8">
             <select name="subcat_id" id="subcat">
                 <div class="prodsubcats">
               <?php 
-                 foreach ($data as $subcat) {
-                    echo "<option  value='".$subcat['id']."'>".$subcat['name']."</option>";
+                 $subcats = allSubCats();
+                 foreach ($subcats as $sub) {
+                    echo "<option  class='filterDiv ".$sub['parent_id']."' value='".$sub['id']."'";
+                    echo $sub['id'] == $row['subcat_id'] ? "selected" : "";
+                    echo ">".$sub['name']."</option>";
                  }
                ?>
                </div>
             </select>
     </div>
-  </div> -->
+  </div> 
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Made in</label>
     <div class="col-sm-8">

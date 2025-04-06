@@ -11,7 +11,11 @@ $count = $stmt->rowCount();
 $action = isset($_GET['action']) ? $_GET['action'] : NULL;
 if($action == 'delete'){
     $id = isset($_GET['prodid']) ? intval($_GET['prodid']) : 0;
-    $stmt = $pdo->prepare('DELETE FROM products WHERE id = :id');
+    $pro = $pdo->prepare("SELECT * FROM products WHERE id = $id");
+    $pro->execute();
+    $product = $pro->fetch();
+    unlink("../../public/images/" . $product['Image']);
+    $stmt = $pdo->prepare("DELETE FROM products WHERE id = :id");
     $stmt->bindParam(':id', $id);
     $stmt->execute();
     header('Location: products_index.php');

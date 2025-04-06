@@ -13,11 +13,11 @@ session_start();
                             <li class="nav-item" role="presentation"><a class="nav-link" href="#">LinK</a></li>
                             <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Categories </a>
                                  <div class="dropdown-menu" role="menu">
-                                    <a class="dropdown-item" role="presentation" href="../pages/products.php">All</a>
+                                    <a class="dropdown-item" role="presentation" href="../pages/products.php?catid=0">All</a>
                             <?php 
-                                $cats = getCats();
+                                $cats = getAllCats();
                                 foreach($cats as $cat){
-                                    echo '<a class="dropdown-item" role="presentation" href="#">'.$cat['name'].'</a>';
+                                    echo '<a class="dropdown-item" role="presentation" href="../pages/products.php?catid='.$cat['id'].'">'.$cat['name'].'</a>';
                                 }
                             ?>
                                  </div>
@@ -30,9 +30,10 @@ session_start();
                          if(isset($_SESSION['user_id'])){
                             echo '<span class="navbar-text"></span><a class="btn btn-light action-button" role="button" href="../pages/logout.php">Logout</a></div>';
                             echo '<div class="nav-item" role="presentation" style="font-size: 25px;"><a class="nav-link" href="../pages/profile.php"><i class="fa-solid fa-circle-user"></i></a></div>';
-                            echo '<div class="nav-item" role="presentation" style="font-size: 25px;"><a class="nav-link" href="../pages/profile.php"><i class="fa-solid fa-cart-shopping"></i></a></div>';
                          }else{ 
 						    echo '<span class="navbar-text"></span><a class="btn btn-light action-button" role="button" href="../pages/login_signup.php">Sign Up/Login</a></div>';
                          } ?>
+                          <div class="nav-item" role="presentation" style="font-size: 25px;"><a class="nav-link" href="../pages/cart.php"><i class="fa-solid fa-cart-shopping"></i></a></div>
+
                 </div>
             </nav>

@@ -10,7 +10,7 @@ if(isset($_SESSION['admin_id'])){
     $price = intval($_POST['price']);
     $image = $_FILES['image'];
     $cat = $_POST['cat_id'];
-    //$sub = $_POST['subcat_id'];
+    $sub = $_POST['subcat_id'];
     $country = $_POST['country_made'];
 
     //validation 
@@ -32,40 +32,24 @@ if(isset($_SESSION['admin_id'])){
         $cerror =  "country is required";
     }
     //start image validation 
-    $imgerror = "";
     if($image){
-      if ($image["size"] > 400000) {
-        $errors_array [] = "image size must be less than 400 KB";
-        $imgerror .= "image size is too large/";
-      }
-      $image_path = "../../public/images/" . basename($image["name"]);
-      $imgtype =  strtolower(pathinfo($image_path,PATHINFO_EXTENSION));
-      if (!in_array($imgtype, ['jpg', 'png', 'jpeg'])){
-        $errors_array [] = "image must be in jpg, png or jpeg format";
-        $imgerror .= "Invalid, only JPG, JPEG, PNG files are allowed/";
-      }
-      if (file_exists($image_path)) {
-        $errors_array [] = "image already exists, change image name";
-        $imgerror .= "image already exists, change image name/";
-      }
-      if(!move_uploaded_file($image["tmp_name"], $image_path)){
-        $errors_array [] = "image failed to upload";
-        $imgerror .= "image failed to upload/" . $image['error'];
-      }
+      $imgerror = "";
+      $image_path = validateImage($image, $errors_array, $imgerror);
     }else{
       $errors_array [] = "image is required";
       $imgerror = "image is required";
     }
     if (empty($errors_array)) {
-      $stmt = $pdo->prepare("INSERT INTO products(name, description, price, Image, country_made, cat_id, created_at) 
-      VALUES(:zname, :zdes, :zprice, :zimg, :zcountry, :zcat, :zcreated)");
+      $stmt = $pdo->prepare("INSERT INTO products(name, description, price, Image, country_made, cat_id, subcat_id, created_at) 
+      VALUES(:zname, :zdes, :zprice, :zimg, :zcountry, :zcat, :zsub, :zcreated)");
       $stmt->execute(array(
         'zname'    => $name,
         'zdes'     => $des,
         'zprice'   => $price,
         'zimg'     => $image_path,
-        'zcat'     => $cat,
         'zcountry' => $country,
+        'zcat'     => $cat,
+        'zsub'     => $sub,
         'zcreated' => date("Y-m-d")
       ));
       $_POST = [];
@@ -165,36 +149,3 @@ include "../includes/templates/footer.php";
   header("Location: index.php");
 }
 ?>
-<script>
-filterSelection("all")
-function filterSelection(cat) {
-  var x, i;
-  x = document.getElementsByClassName("filterDiv");
-  if (cat == "all") cat = "";
-  for (i = 0; i < x.length; i++) {
-    removeClass(x[i], "show");
-    if (x[i].className.indexOf(cat) > -1) addClass(x[i], "show");
-  }
-}
-
-function addClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
-  }
-}
-
-function removeClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    while (arr1.indexOf(arr2[i]) > -1) {
-      arr1.splice(arr1.indexOf(arr2[i]), 1);     
-    }
-  }
-  element.className = arr1.join(" ");
-}
-</script>

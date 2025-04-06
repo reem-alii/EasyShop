@@ -1,11 +1,11 @@
 <?php
 include "init.php";
 include "../includes/templates/navbar.php";
-
-$email = $_SESSION['user_email'];
-$stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
-$stmt->execute(array($email));
-$user = $stmt->fetch();
+if(isset($_SESSION['user_id'])){
+  $email = $_SESSION['user_email'];
+  $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
+  $stmt->execute(array($email));
+  $user = $stmt->fetch();
 ?>
 <div class="container profile">
     <div class="main-body">   
@@ -14,7 +14,7 @@ $user = $stmt->fetch();
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <img src="<?php echo $user['image'] ? $user['image'] : "https://bootdey.com/img/Content/avatar/avatar7.png" ; ?>" alt="Admin" class="rounded-circle" width="150" height="150">
                     <div class="mt-3">
                       <h4><?php echo $user['first_name'].' '.$user['last_name'] ; ?></h4>
                       <p class="text-secondary mb-1"><?php echo $user['email'] ?></p>
@@ -37,7 +37,7 @@ $user = $stmt->fetch();
                     <div class="col-sm-3">
                       <h6 class="mb-0">First Name</h6>
                     </div>
-                    <div class="col-sm-9 text-secondary">
+                    <div class="col-sm-9">
                       <?php echo $user['first_name'] ?>
                     </div>
                   </div>
@@ -46,7 +46,7 @@ $user = $stmt->fetch();
                     <div class="col-sm-3">
                       <h6 class="mb-0">Last Name</h6>
                     </div>
-                    <div class="col-sm-9 text-secondary">
+                    <div class="col-sm-9">
                       <?php echo $user['last_name'] ?>
                     </div>
                   </div>
@@ -55,7 +55,7 @@ $user = $stmt->fetch();
                     <div class="col-sm-3">
                       <h6 class="mb-0">Email</h6>
                     </div>
-                    <div class="col-sm-9 text-secondary">
+                    <div class="col-sm-9">
                       <?php echo $user['email'] ?>
                     </div>
                   </div>
@@ -64,8 +64,8 @@ $user = $stmt->fetch();
                     <div class="col-sm-3">
                       <h6 class="mb-0">Phone</h6>
                     </div>
-                    <div class="col-sm-9 text-secondary">
-                      (239) 816-9029
+                    <div class="col-sm-9">
+                       <?php echo $user['phone'] ?>
                     </div>
                   </div>
                   <hr>
@@ -73,8 +73,8 @@ $user = $stmt->fetch();
                     <div class="col-sm-3">
                       <h6 class="mb-0">Address</h6>
                     </div>
-                    <div class="col-sm-9 text-secondary">
-                      Bay Area, San Francisco, CA
+                    <div class="col-sm-9">
+                       <?php echo $user['address'] ?>
                     </div>
                   </div>
                   <hr>
@@ -143,9 +143,11 @@ $user = $stmt->fetch();
               </div>
               </div>
           </div>
-
         </div>
     </div>  
 <?php
 include "../includes/templates/footer.php";
+}else{
+  header("Location: login_signup.php");
+}
 

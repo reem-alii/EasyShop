@@ -29,3 +29,28 @@ function loginQuery($email, $password){
         return false;
     }
 }
+function editProfileQuery($id, $fname, $lname, $phone, $address){
+    global $pdo ;
+    $stmt = $pdo->prepare("UPDATE users SET first_name = :zfname, last_name = :zlname, phone = :zphone, address = :zaddress 
+                           WHERE id = $id");
+    $stmt->execute(array(
+        'zfname' => $fname,
+        'zlname' => $lname,
+        'zphone' => $phone,
+        'zaddress' => $address
+    ));
+    return true;
+}
+function uploadImageQuery($id, $image_path){
+    global $pdo ;
+    $stmt = $pdo->prepare("UPDATE users SET image = ? WHERE id = $id");
+    $stmt->execute(array($image_path));
+    return true;
+}
+function updatePassword($id, $pass){
+    global $pdo ;
+    $password = sha1($pass);
+    $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = $id");
+    $stmt->execute(array($password));
+    return true;
+}

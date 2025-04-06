@@ -9,6 +9,7 @@ if(isset($_SESSION['admin_id'])){
   $row = $stmt->fetch();
   if($row){
     $cat = getCat($row['cat_id']);
+    $sub = getCat($row['subcat_id']);
 ?>
 <div class="container">
     <div class="row">
@@ -29,7 +30,7 @@ if(isset($_SESSION['admin_id'])){
                  <p class="price">$<?php echo $row['price'] ; ?></p>
                  <p><span>Description:</span> <?php echo $row['description'] ; ?></p>
                  <p><span>Category:</span> <?php echo $cat['name'] ; ?></p>
-                 <p><span>Sub Cat.:</span> <?php echo getCat($row['subcat_id']) ; ?></p>
+                 <p><span>Sub Cat.:</span> <?php echo $sub['name'] ; ?></p>
                  <p><span>Country:</span> <?php echo $row['country_made'] ; ?></p>
                  <p><span>Created at:</span> <?php echo $row['created_at'] ; ?></p>
                </div> 
