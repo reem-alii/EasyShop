@@ -29,11 +29,11 @@ include "init.php";
           </div>
         <div class="col-md-4">
            <div class="card">
-            <i class="fa-solid fa-comment"></i>
+            <i class="fa-solid fa-bag-shopping"></i>
               <div class="info">
                 Total Orders
               </div>
-                <br><span><a href="comments.php"><?php echo 50 ; ?></a></span>
+                <br><span><a href="orders_index.php"><?php echo getTotalOrders() ; ?></a></span>
           </div>
         </div>
       </div>

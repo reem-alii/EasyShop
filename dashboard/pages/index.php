@@ -1,5 +1,7 @@
 <?php 
 include "init.php";
+error_reporting(E_ALL);
+ini_set('display_errors',1);
 if(isset($_SESSION['admin_id'])){
   header('Location: dashboard.php');
   exit;
@@ -44,12 +46,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     <div class="row">
         <div class="col-md-12">
             <h1 class="text-center" style="margin:10px;">Admin Login</h1>
+<div class="d-flex align-items-center justify-content-center">
  <form class="login" action="<?php echo $_SERVER['PHP_SELF']?>"  method="POST">
   <div class="form-group row">
     <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
     <div class="col-sm-10">
-      <input type="text" name="email" class="form-control" id="staticEmail">
-        <div class="err" style="color:red;"><?php echo $error ; ?></div>
+      <input type="text" name="email" class="form-control" id="staticEmail" value="<?php if(isset($_POST['email'])) echo $_POST['email']?>">
+        <div class="err" style="color:red;"><?php if(isset($error)) echo $error ; ?></div>
     </div>
   </div>
   <div class="form-group row">
@@ -64,6 +67,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
      </div>
    </div>
  </form>
+ </div>
 </div>
 </div>
 </div>

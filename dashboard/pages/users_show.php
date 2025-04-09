@@ -9,7 +9,7 @@ if(isset($_SESSION['admin_id'])){
   $row = $stmt->fetch();
   if($row){
     $stat = $row['reg_status'] ? '<span class="badge badge-pill badge-success">Approved</span>' : '<span class="badge badge-pill badge-warning">Not Approved </span>';
-    $src = $row['Image'] ? $row['Image'] : "https://img.freepik.com/premium-vector/user-icons-includes-user-icons-people-icons-symbols-premiumquality-graphic-design-elements_981536-526.jpg?semt=ais_hybrid" ;
+    $src = $row['image'] ? $row['image'] : "https://img.freepik.com/premium-vector/user-icons-includes-user-icons-people-icons-symbols-premiumquality-graphic-design-elements_981536-526.jpg?semt=ais_hybrid" ;
 ?>
 <div class="container">
     <div class="row">

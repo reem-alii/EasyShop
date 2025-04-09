@@ -2,9 +2,11 @@
 session_start();
 if(isset($_SESSION['admin_id'])){
 include "init.php";
+error_reporting(E_ALL);
+ini_set('display_errors',1);
 $stmt = $pdo->prepare('SELECT * FROM orders');
 $stmt->execute();
-$orderss = $stmt->fetchAll();
+$orders = $stmt->fetchAll();
 $count = $stmt->rowCount();
 
 // Delete Order 
@@ -15,7 +17,16 @@ if($action == 'delete'){
     $stmt->bindParam(':id', $id);
     $stmt->execute();
     header('Location: orders_index.php');
-    exit();
+    exit;
+}
+// Cancel Order
+if ($action == 'cancel'){
+  $id = intval($_GET['order_id']) ;
+  $stmt = $pdo->prepare("UPDATE orders SET status = ? WHERE id = $id");
+  $stmt->execute(array('Canceled'));
+  returnItemsToStock($id);
+  header('Location: orders_index.php');
+  exit;
 }
 
 ?>
@@ -23,7 +34,6 @@ if($action == 'delete'){
     <div class="row">
         <div class="col-md-12">
             <h1 class="text-center">Orders Table</h1>
-            <a class="btn btn-outline-success" href="orders_create.php">Make Order <i class="fa-solid fa-truck-fast"></i></a><br><br>
 <table class="table" style="background-color:#7d9a741f">
   <thead>
     <tr>
@@ -49,15 +59,16 @@ if($action == 'delete'){
         echo '<td>
               <a href="orders_index.php?action=delete&order_id='.$order['id'].'"
               class="btn btn-secondary btn-sm confirm" data-inline="true" style="background-color: #7d9a74;">
-              <i class="fa-solid fa-user-xmark" style="color:black;"></i></a>
-              <a href="admins_edit.php?adminid='.$admin['id'].'"
-              class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
-              <i class="fa-solid fa-user-pen" style="color:black;"></i></a>
+              <i class="fa-solid fa-xmark" style="color:black;"></i></a>
               <a href="orders_details.php?order_id='.$order['id'].'"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
-              <i class="fa-solid fa-arrow-up-right-from-square" style="color:black;"></i></a>
-        
-        </td>';
+              <i class="fa-solid fa-arrow-up-right-from-square" style="color:black;"></i></a>';
+              if ($order['status'] != 'Canceled' && $order['status'] != 'Delivered' ){
+                echo  '<a href="orders_index.php?action=cancel&order_id='.$order['id'].'"
+                      class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #ff7675; margin-left: 4px;">
+                      <i class="fa-solid fa-ban" style="color:black;"></i></a>';
+              }   
+        echo '</td>';
       }
     ?>
   </tbody>

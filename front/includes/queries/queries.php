@@ -54,3 +54,14 @@ function updatePassword($id, $pass){
     $stmt->execute(array($password));
     return true;
 }
+function updateOrderQuery($order_id, $full_name, $phone, $address){
+    global $pdo ;
+    $stmt = $pdo->prepare("UPDATE orders SET full_name = :zname, phone = :zphone, address = :zadd
+                           WHERE id = $order_id");
+    $stmt->execute(array(
+        'zname' => $full_name,
+        'zphone' => $phone,
+        'zadd' => $address
+    ));
+    return true;
+}

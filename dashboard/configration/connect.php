@@ -16,7 +16,7 @@
     //     ':zpass'  => sha1(123456789)
     // ));                     
 
-    //echo "Database seeded successfully!";
+    // echo "Database seeded successfully!";
 
     } catch (PDOException $e) {
         echo 'Connection failed: ' . $e->getMessage();

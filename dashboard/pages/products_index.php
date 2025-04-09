@@ -14,7 +14,7 @@ if($action == 'delete'){
     $pro = $pdo->prepare("SELECT * FROM products WHERE id = $id");
     $pro->execute();
     $product = $pro->fetch();
-    unlink("../../public/images/" . $product['Image']);
+    unlink($product['Image']);
     $stmt = $pdo->prepare("DELETE FROM products WHERE id = :id");
     $stmt->bindParam(':id', $id);
     $stmt->execute();
@@ -45,7 +45,7 @@ if($action == 'approve'){
       <th>Price</th>
       <th>Category</th>
       <th>Approval</th>
-      <th>created at</th>
+      <th>Stock</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -65,7 +65,7 @@ if($action == 'approve'){
             echo '<a href="products_index.php?action=approve&prodid='.$prod['id'].'" class="badge badge-pill badge-warning">Not Approved </a>';
         }
         echo '</td>';
-        echo '<td>'. $prod['created_at'].'</td>';
+        echo '<td>'. $prod['stock'].'</td>';
         echo '<td>
               <a href="products_index.php?action=delete&prodid='.$prod['id'].'"
               class="btn btn-secondary btn-sm confirm" data-inline="true" style="background-color: #7d9a74;">

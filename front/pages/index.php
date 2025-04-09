@@ -1,6 +1,5 @@
 <?php
 include "init.php";
-include "../includes/templates/navbar.php";
 ?>
             <div class="container hero">
                 <div class="row">

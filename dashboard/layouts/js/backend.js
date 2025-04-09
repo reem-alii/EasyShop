@@ -2,7 +2,11 @@ $(function (){
     $(".confirm").click(function () {
         return confirm("Are you sure you want to delete this object?");
     });    
-
+});
+$(function (){
+    $(".sure").click(function () {
+       return confirm("Are you sure you want to refund this item?");
+    }); 
 });
 // start filter sub cats.
 filterSelection("all")

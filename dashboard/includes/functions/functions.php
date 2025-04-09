@@ -48,6 +48,13 @@ function getTotalProducts(){
     $stmt->execute();
     return $stmt->fetchColumn();
 }
+// get total orders 
+function getTotalOrders(){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT COUNT(id) FROM orders");
+    $stmt->execute();
+    return $stmt->fetchColumn();
+}
 function allSubCats(){
     global $pdo ;
     $stmt = $pdo->prepare("SELECT * FROM categories WHERE parent_id <> 0");
@@ -76,10 +83,6 @@ function validateImage($image, &$errors_array, &$imgerror){
     if (file_exists($image_path)) {
       $image_path = renameDuplicate($image_path);
     }
-    if(!move_uploaded_file($image["tmp_name"], $image_path)){
-        $errors_array [] = "image failed to upload";
-        $imgerror .= "image failed to upload/" . $image['error'];
-    }
     if(empty($errors_array)){
         if(!move_uploaded_file($image["tmp_name"], $image_path)) {
             $errors_array [] = "image failed to upload";
@@ -88,4 +91,86 @@ function validateImage($image, &$errors_array, &$imgerror){
     }
     
     return $image_path;
+}
+// Order Validation for Update Order 
+function orderValidation($full_name, $address, $phone, &$errors_array){
+    if(empty($full_name) || empty($address) || empty($phone)) {
+        $errors_array[] = "Please fill in all fields";
+    }
+    if(strlen($full_name) < 3 || strlen($full_name) > 20){
+        $errors_array[] = "Full name must be between 3 and 20 characters";
+    }
+    if(strlen($address) < 3 || strlen($address) > 50){
+        $errors_array[] = "Address must be between 3 and 50 characters";
+    }
+    if(!filter_var(intval($phone),FILTER_VALIDATE_INT)){
+        $errors_array[] = "Enter Valid Phone number";
+    }
+    return $errors_array ;
+}
+// Order Validation for Status and Payment Status 
+function statusValidation($status, $payment_status, &$errors_array){
+    if($status == "" || $payment_status == ""){
+        $errors_array[] = "Please fill in all fields";
+    }
+    if(!in_array($status, [ 'Processing', 'Pending', 'Delivered'])){
+        $errors_array[] = "Invalid Status, Can only be: Processing, Pending, Canceled, Delivered, or Refunded";
+    }
+    if(!in_array($payment_status, ['Pending', 'Completed', 'Failed', 'Canceled'])){
+        $errors_array[] = "Invalid Payment Status, Can only be: Pending, Completed, Failed, Canceled";
+    }
+    return $errors_array ;
+}
+// get order items of this order
+function getOrderItems($order_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT order_items.* , products.name , products.price FROM order_items 
+    INNER JOIN products ON order_items.product_id = products.id WHERE order_items.order_id = $order_id");
+    $stmt->execute();
+    $items = $stmt->fetchAll();
+    return $items;
+}
+// find product by id
+function findProduct($id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM products WHERE id = $id");
+    $stmt->execute();
+    return $stmt->fetch();
+}
+// refund item
+function refundItem($order_id, $item_id, $price){
+    global $pdo ;
+    $stmt = $pdo->prepare("UPDATE order_items SET status = :zval 
+                           WHERE product_id = :zprod AND order_id = :zord");
+    $stmt->execute(array(
+    'zval' => '-1',
+    'zprod' => $item_id,
+    'zord' => $order_id,
+    ));
+    updateTotalCost($order_id, $price);
+    updateProductQuantity($item_id);
+}
+// update total cost after refund item
+function updateTotalCost($order_id, $price){
+    global $pdo ;
+    $stmt = $pdo->prepare("UPDATE orders SET total_cost = total_cost - ? 
+                           WHERE id = $order_id");
+    $stmt->execute(array($price));
+
+}
+// update product quantity in database after refunding 
+function updateProductQuantity($product_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("UPDATE products SET stock = stock + 1 WHERE id = $product_id");
+    $stmt->execute();
+}
+// return items to stock after order Cancellation
+function returnItemsToStock($order_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT product_id FROM order_items WHERE order_id = $order_id");
+    $stmt->execute();
+    $items = $stmt->fetchAll();
+    foreach ($items as $item) {
+        updateProductQuantity($item['product_id']);
+    }
 }

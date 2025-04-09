@@ -28,10 +28,10 @@ function loginValidation($email, $password){
     return $errors_array;
 }
 // Check Unique Value
-function checkUniqueValue($table, $column, $value){
+function checkUniqueValue($table, $column, $value = 0){
     global $pdo ;
     $stmt = $pdo->prepare("SELECT * FROM $table WHERE $column = ?");
-    $stmt->execute($value);
+    $stmt->execute(array($value));
     $count = $stmt->rowCount();
 
     return $count ;
@@ -80,7 +80,10 @@ function profileValidation($fname , $lname, $phone, $address, &$errors_array){
     if (empty($lname) || strlen($lname) < 3 || strlen($lname) > 20){
         $errors_array [] = "Last Name is required and must be between 3 and 20 characters";
     }
-    if (empty($phone) || strlen($phone) < 10 || strlen($phone) > 20){
+    if(!filter_var(intval($phone),FILTER_VALIDATE_INT)){
+        $errors_array [] = "Enter validate Phone number";
+    }
+    if (empty($phone) || strlen($phone) < 7 || strlen($phone) > 20){
         $errors_array [] = "Phone number is required and must be between 10 and 20 characters";
     }
     if (empty($address) || strlen($address) < 5){
@@ -176,4 +179,69 @@ function countCartItems($user_id){
     return $stmt->fetchColumn();
 }
 // Make order
-function makeOrder($user_id, $order_date, $order_status){}
+function makeOrder($user_id, $email, $quantity, $total_cost, $order_number, $order_date){
+    global $pdo ;
+    $stmt = $pdo->prepare("INSERT INTO orders (user_id, email, quantity, total_cost, order_number, created_at)
+                            VALUES (:zid, :zemail, :zquantity, :zcost, :zorder_num, :zdate)");   
+    $stmt->execute(array(
+        ':zid' => $user_id,
+        ':zemail' => $email,
+        ':zquantity' => $quantity,
+        ':zcost' => $total_cost,
+        ':zorder_num' => $order_number,
+        ':zdate' => $order_date
+    ));
+    // get order that has just created
+    $stmt = $pdo->prepare("SELECT * FROM orders where user_id = ? ORDER BY id DESC LIMIT 1");
+    $stmt->execute(array($user_id));
+    $order = $stmt->fetch();
+    return $order ;
+    //return $stmt->debugDumpParams(); --> log of statement
+    //return $pdo->lastInsertId();
+}
+// Insert Order Items 
+function insertOrderItems($order_id, $product_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id)
+                            VALUES (:zord_id, :zprod_id)");
+    $stmt->execute(array(
+        ':zord_id'  => $order_id,
+        ':zprod_id' => $product_id
+    ));
+    //update quantity in database
+    updateProductQuantity($product_id);
+}
+// empty cart for this user
+function emptyCart($user_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("DELETE FROM carts WHERE user_id = $user_id");
+    $stmt->execute();
+}
+// get orders of this user
+function getOrders($user_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM orders WHERE user_id = $user_id");
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+// Order Validation for Update Order 
+function orderValidation($full_name, $address, $phone, &$errors_array){
+    if(empty($full_name) || empty($address) || empty($phone)) {
+        $errors_array[] = "Please fill in all fields";
+    }
+    if(strlen($full_name) < 3 || strlen($full_name) > 20){
+        $errors_array[] = "Full name must be between 3 and 20 characters";
+    }
+    if(strlen($address) < 3 || strlen($address) > 50){
+        $errors_array[] = "Address must be between 3 and 50 characters";
+    }
+    if(!filter_var(intval($phone),FILTER_VALIDATE_INT)){
+        $errors_array[] = "Enter Valid Phone number";
+    }
+    return $errors_array ;
+}
+function updateProductQuantity($product_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("UPDATE products SET stock = stock - 1 WHERE id = $product_id");
+    $stmt->execute();
+}

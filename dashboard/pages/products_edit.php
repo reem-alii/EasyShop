@@ -13,6 +13,7 @@ if(isset($_SESSION['admin_id'])){
     $cat = $_POST['cat_id'];
     $sub = $_POST['subcat_id'];
     $country = $_POST['country_made'];
+    $stock = $_POST['stock'];
 
     //validation 
     $errors_array = [];
@@ -32,14 +33,17 @@ if(isset($_SESSION['admin_id'])){
         $errors_array [] = "country is required";
         $cerror =  "country is required";
     }
+    if (!is_numeric($stock) || is_null($stock)) {
+      $errors_array [] = "Invalid, Stock is required and must be numeric";
+      $serror = "Invalid, Stock is required and must be numeric";
+    }
     //start image validation 
     $imgerror = "";
-    if($image){
-      $imgerror = "";
+    if(is_uploaded_file($_FILES['image']['tmp_name'])){
       $image_path = validateImage($image, $errors_array, $imgerror);
     }
-    if (empty($errors_array) && $image) {
-      $stmt = $pdo->prepare("UPDATE products SET name = :zname, description = :zdes, price = :zprice, Image = :zimg, country_made = :zcountry, cat_id = :zcat, subcat_id = :zsub 
+    if (empty($errors_array) && isset($image_path)) {
+      $stmt = $pdo->prepare("UPDATE products SET name = :zname, description = :zdes, price = :zprice, Image = :zimg, country_made = :zcountry, stock = :zstock, cat_id = :zcat, subcat_id = :zsub 
       WHERE id = $id");
       $stmt->execute(array(
         'zname'    => $name,
@@ -47,19 +51,21 @@ if(isset($_SESSION['admin_id'])){
         'zprice'   => $price,
         'zimg'     => $image_path,
         'zcountry' => $country,
+        'zstock'   => $stock,
         'zcat'     => $cat,
         'zsub'     => $sub
       ));
       $_POST = [];
       echo "<div class='alert alert-success'>Product Updated successfully</div>";
     }elseif(empty($errors_array)){
-    $stmt = $pdo->prepare("UPDATE products SET name = :zname, description = :zdes, price = :zprice, country_made = :zcountry, cat_id = :zcat, subcat_id = :zsub 
+    $stmt = $pdo->prepare("UPDATE products SET name = :zname, description = :zdes, price = :zprice, country_made = :zcountry, stock = :zstock, cat_id = :zcat, subcat_id = :zsub 
       WHERE id = $id");
       $stmt->execute(array(
         'zname'    => $name,
         'zdes'     => $des,
         'zprice'   => $price,
         'zcountry' => $country,
+        'zstock'   => $stock,
         'zcat'     => $cat,
         'zsub'     => $sub
       ));
@@ -85,21 +91,21 @@ if(isset($_SESSION['admin_id'])){
     <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-8">
       <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="Name" value="<?php echo $row['name'] ;?>">
-      <div class="err" style="color:red;"><?php echo $nerror ; ?></div>
+      <div class="err" style="color:red;"><?php if(isset($nerror)) echo $nerror ;?></div>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Description</label>
     <div class="col-sm-8">
       <textarea name="description" class="form-control" id="inputEmail3"><?php echo $row['description'] ;?></textarea>
-      <div class="err" style="color:red;"><?php echo $derror ; ?></div>
+      <div class="err" style="color:red;"><?php if(isset($derror)) echo $derror ; ?></div>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Price</label>
     <div class="col-sm-8">
       <input type="text" name="price" class="form-control" id="inputEmail3" placeholder="Price in numbers" value="<?php echo $row['price'] ;?>">
-      <div class="err" style="color:red;"><?php echo $perror ; ?></div>
+      <div class="err" style="color:red;"><?php if(isset($perror)) echo $perror ; ?></div>
     </div>
   </div>
   <div class="form-group row">
@@ -118,7 +124,7 @@ if(isset($_SESSION['admin_id'])){
     </div>
   </div>
   <div class="form-group row">
-    <label for="subcat" class="col-sm-2 col-form-label">Sub Cat.(optional):</label>
+    <label for="subcat" class="col-sm-2 col-form-label">Sub Cat.:</label>
         <div class="col-sm-8">
             <select name="subcat_id" id="subcat">
                 <div class="prodsubcats">
@@ -138,14 +144,21 @@ if(isset($_SESSION['admin_id'])){
     <label for="inputEmail3" class="col-sm-2 col-form-label">Made in</label>
     <div class="col-sm-8">
       <input type="text" name="country_made" class="form-control" id="inputEmail3" placeholder="Made in " value="<?php echo $row['country_made'] ;?>">
-      <div class="err" style="color:red;"><?php echo $cerror ; ?></div>
+      <div class="err" style="color:red;"><?php if(isset($cerror)) echo $cerror ; ?></div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-2 col-form-label">Stock</label>
+    <div class="col-sm-8">
+      <input type="number" name="stock" class="form-control" id="inputEmail3" value="<?php echo $row['stock'] ;?>">
+      <div class="err" style="color:red;"><?php if(isset($serror)) echo $serror ; ?></div>
     </div>
   </div>
   <div class="form-group row">
     <label for="image" class="col-sm-2 col-form-label">Select image to upload(optional):</label>
      <div class="col-sm-8">
        <input type="file" name="image" id="image">
-       <div class="err" style="color:red;"><?php echo $imgerror ; ?></div>
+       <div class="err" style="color:red;"><?php if(isset($imgerror)) echo $imgerror ; ?></div>
      </div>
   </div>
   <div class="form-group row">

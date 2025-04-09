@@ -32,6 +32,7 @@ if(isset($_SESSION['admin_id'])){
                  <p><span>Category:</span> <?php echo $cat['name'] ; ?></p>
                  <p><span>Sub Cat.:</span> <?php echo $sub['name'] ; ?></p>
                  <p><span>Country:</span> <?php echo $row['country_made'] ; ?></p>
+                 <p><span>Stock:</span> <?php echo $row['stock'] ; ?></p>
                  <p><span>Created at:</span> <?php echo $row['created_at'] ; ?></p>
                </div> 
                  <p class="text-center"><a href="products_index.php?action=delete&prodid=<?php echo $row['id'] ; ?>"

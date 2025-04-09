@@ -1,6 +1,5 @@
 <?php 
 include "init.php";
-include "../includes/templates/navbar.php";
 if(isset($_SESSION['user_id'])){
 $email = $_SESSION['user_email'];
 error_reporting(E_ALL);
@@ -41,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['type'] == "pic"){
 	}else{
 		$status = uploadImageQuery($user['id'], $image_path);
 		if($status){
-			echo "<div class='alert alert-success text-center'>Profile picture updated successfully</div>";
+			echo "<div class='alert alert-success text-center'>Profile picture updated successfully, Refresh to see Changes</div>";
 		}else{
 			echo "<div class='alert alert-danger text-center'>Failed to update profile picture</div>";
 		}

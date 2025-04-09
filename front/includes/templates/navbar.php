@@ -1,6 +1,5 @@
 <?php 
 session_start();
-//include "init.php";
 ?>
 <div>
         <div class="header-dark">

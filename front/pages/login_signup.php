@@ -1,6 +1,5 @@
 <?php 
 include "init.php" ;
-include "../includes/templates/navbar.php";
 if(!isset($_SESSION['user_id'])){
 error_reporting(E_ALL);
 ini_set('display_errors',1);

@@ -12,6 +12,7 @@ if(isset($_SESSION['admin_id'])){
     $cat = $_POST['cat_id'];
     $sub = $_POST['subcat_id'];
     $country = $_POST['country_made'];
+    $quantity = $_POST['stock'];
 
     //validation 
     $errors_array = [];
@@ -31,6 +32,10 @@ if(isset($_SESSION['admin_id'])){
         $errors_array [] = "country is required";
         $cerror =  "country is required";
     }
+    if (!is_numeric($quantity) || empty($quantity) || $quantity < 1) {
+      $errors_array [] = "Invalid, Quantity is required and must be numeric and more than 1";
+      $qerror = "Invalid, Quantity is required and must be numeric and more than 1";
+    }
     //start image validation 
     if($image){
       $imgerror = "";
@@ -39,30 +44,28 @@ if(isset($_SESSION['admin_id'])){
       $errors_array [] = "image is required";
       $imgerror = "image is required";
     }
-    if (empty($errors_array)) {
-      $stmt = $pdo->prepare("INSERT INTO products(name, description, price, Image, country_made, cat_id, subcat_id, created_at) 
-      VALUES(:zname, :zdes, :zprice, :zimg, :zcountry, :zcat, :zsub, :zcreated)");
+    if(empty($errors_array)) {
+      $stmt = $pdo->prepare("INSERT INTO products(name, description, price, Image, country_made, stock, cat_id, subcat_id, created_at) 
+      VALUES(:zname, :zdes, :zprice, :zimg, :zcountry, :zstock, :zcat, :zsub, :zcreated)");
       $stmt->execute(array(
         'zname'    => $name,
         'zdes'     => $des,
         'zprice'   => $price,
         'zimg'     => $image_path,
         'zcountry' => $country,
+        'zstock'   => $quantity,
         'zcat'     => $cat,
         'zsub'     => $sub,
         'zcreated' => date("Y-m-d")
       ));
       $_POST = [];
       echo "<div class='alert alert-success'>Product added successfully</div>";
-    }
-   }else{
-    foreach(
-      $errors_array as $error
-    ){
-      echo "<div class='alert alert-danger'>".$error."</div>";
-    }
+    }else{
+       foreach($errors_array as $error){
+           echo "<div class='alert alert-danger'>".$error."</div>";
+       }
    }
-
+   }
 ?>
 <div class="container create-prod">
     <div class="row">
@@ -74,22 +77,22 @@ if(isset($_SESSION['admin_id'])){
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-8">
-      <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="Name" value="<?php echo $_POST['name'] ? $_POST['name'] : "" ?>">
-      <div class="err" style="color:red;"><?php echo $nerror ; ?></div>
+      <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="Name" value="<?php if(isset($_POST['name'])) echo $_POST['name'] ; ?>">
+      <div class="err" style="color:red;"><?php if(isset($nerror)) echo $nerror ; ?></div>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Description</label>
     <div class="col-sm-8">
-      <textarea name="description" class="form-control" id="inputEmail3"><?php echo $_POST['description'] ? $_POST['description'] : "" ?></textarea>
-      <div class="err" style="color:red;"><?php echo $derror ; ?></div>
+      <textarea name="description" class="form-control" id="inputEmail3"><?php if(isset($_POST['description'])) echo $_POST['description'] ; ?></textarea>
+      <div class="err" style="color:red;"><?php if(isset($derror)) echo $derror ; ?></div>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Price</label>
     <div class="col-sm-8">
-      <input type="text" name="price" class="form-control" id="inputEmail3" placeholder="Price in numbers" value="<?php echo $_POST['price'] ? $_POST['price'] : "" ?>">
-      <div class="err" style="color:red;"><?php echo $perror ; ?></div>
+      <input type="text" name="price" class="form-control" id="inputEmail3" placeholder="Price in numbers" value="<?php if(isset($_POST['price'])) echo $_POST['price'] ;?>">
+      <div class="err" style="color:red;"><?php if(isset($perror)) echo $perror ; ?></div>
     </div>
   </div>
   <div class="form-group row">
@@ -106,7 +109,7 @@ if(isset($_SESSION['admin_id'])){
     </div>
   </div>
   <div class="form-group row">
-    <label for="subcat" class="col-sm-2 col-form-label">Sub Cat.(optional):</label>
+    <label for="subcat" class="col-sm-2 col-form-label">Sub Cat.:</label>
         <div class="col-sm-8">
             <select name="subcat_id" id="subcat">
                 <div class="prodsubcats">
@@ -123,15 +126,22 @@ if(isset($_SESSION['admin_id'])){
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Made in</label>
     <div class="col-sm-8">
-      <input type="text" name="country_made" class="form-control" id="inputEmail3" placeholder="Made in " value="<?php echo $_POST['country_made'] ? $_POST['country_made'] : "" ?>">
-      <div class="err" style="color:red;"><?php echo $cerror ; ?></div>
+      <input type="text" name="country_made" class="form-control" id="inputEmail3" placeholder="Made in " value="<?php if(isset($_POST['country_made'])) echo $_POST['country_made'] ; ?>">
+      <div class="err" style="color:red;"><?php if(isset($cerror)) echo $cerror ; ?></div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-2 col-form-label">Quantity</label>
+    <div class="col-sm-8">
+      <input type="number" name="stock" class="form-control" id="inputEmail3" value="<?php if(isset($_POST['stock'])) echo $_POST['stock'] ;?>">
+      <div class="err" style="color:red;"><?php if(isset($qerror)) echo $qerror ; ?></div>
     </div>
   </div>
   <div class="form-group row">
     <label for="image" class="col-sm-2 col-form-label">Select image to upload:</label>
      <div class="col-sm-8">
        <input type="file" name="image" id="image">
-       <div class="err" style="color:red;"><?php echo $imgerror ; ?></div>
+       <div class="err" style="color:red;"><?php if(isset($imgerror)) echo $imgerror ; ?></div>
      </div>
   </div>
   <div class="form-group row">

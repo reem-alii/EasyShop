@@ -1,11 +1,15 @@
 <?php
 include "init.php";
-include "../includes/templates/navbar.php";
 if(isset($_SESSION['user_id'])){
   $email = $_SESSION['user_email'];
   $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
   $stmt->execute(array($email));
   $user = $stmt->fetch();
+
+  //orders
+  $orders = getOrders($user['id']);
+
+
 ?>
 <div class="container profile">
     <div class="main-body">   
@@ -89,27 +93,14 @@ if(isset($_SESSION['user_id'])){
                 <div class="col-sm-6 mb-3">
                   <div class="card h-100">
                     <div class="card-body">
-                      <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                      <small>Web Design</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>Website Markup</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>One Page</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>Mobile Template</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>Backend API</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
+                      <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Orders</i>Show Status</h6>
+                      <?php foreach($orders as $order) { ?>
+                        <small>order num.: <a href="" ><?php echo $order['order_number'] ?></a></small><br>
+                        <small>status: <?php echo $order['status'] ?></small>
+                        <div class="progress mb-3" style="height: 5px">
+                          <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      <?php } ?>
                     </div>
                   </div>
                 </div>
