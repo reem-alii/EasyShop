@@ -52,7 +52,7 @@ if($action == 'approve'){
   <tbody>
     <?php
       foreach ($products as $prod) {
-        $cat = getCat($prod['cat_id']);
+        $cat = findCat($prod['cat_id']);
         echo '<tr>';
         echo '<td>'.$prod['id'].'</td>';
         echo '<td>'.$prod['name'] .'</td>';

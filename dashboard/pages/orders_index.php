@@ -22,9 +22,7 @@ if($action == 'delete'){
 // Cancel Order
 if ($action == 'cancel'){
   $id = intval($_GET['order_id']) ;
-  $stmt = $pdo->prepare("UPDATE orders SET status = ? WHERE id = $id");
-  $stmt->execute(array('Canceled'));
-  returnItemsToStock($id);
+  cancelOrder($id);
   header('Location: orders_index.php');
   exit;
 }
@@ -63,7 +61,7 @@ if ($action == 'cancel'){
               <a href="orders_details.php?order_id='.$order['id'].'"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-arrow-up-right-from-square" style="color:black;"></i></a>';
-              if ($order['status'] != 'Canceled' && $order['status'] != 'Delivered' ){
+              if ($order['status'] != 'Canceled' && $order['status'] != 'Delivered' && $order['status'] != 'Refunded' ){
                 echo  '<a href="orders_index.php?action=cancel&order_id='.$order['id'].'"
                       class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #ff7675; margin-left: 4px;">
                       <i class="fa-solid fa-ban" style="color:black;"></i></a>';

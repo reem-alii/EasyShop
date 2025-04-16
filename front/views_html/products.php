@@ -1,41 +1,6 @@
-<?php
-include "init.php";
-error_reporting(E_ALL);
-ini_set('display_errors',1);
-if($_SERVER['REQUEST_METHOD'] == "POST"){
-  if(isset($_SESSION['user_id'])){
-    $user_id = $_POST['user_id'];
-    $product_id = $_POST['product_id'];
-    $product_price = $_POST['product_price'];
-    $status = addToCart($user_id, $product_id, $product_price);
-    if($status){
-        echo "<div class='alert alert-success text-center'>Product added to cart successfully</div>";
-    }else{
-        echo "<div class='alert alert-danger text-center'>Failed to add product to cart</div>";
-    }
-  }else{
-    $product = $_POST['product_id']; 
-    if(!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
-    }
-    if(!in_array($product,$_SESSION['cart'],true)){
-        $_SESSION['cart'][] = $product ;
-    } 
-    echo "<div class='alert alert-success text-center'>Product added to cart successfully</div>";
-  }
-
-}
-$cat_id = intval($_GET['catid']);
-$cat = getCatById($cat_id);
-$subcats = NULL;
-if(!empty($cat)){
-    $products = getProductsByCatId($cat_id) ;
-    $subcats = getSubCats($cat_id);
-}else{
-    $products = getAllProducts() ;
-}
-if($subcats){
-?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/products.php");
+if(isset($_SESSION['success_cart'])) { echo $_SESSION['success_cart'] ; unset($_SESSION['success_cart']); }
+ if($subcats){?>
 <!-- Second Navbar -->
 <div class="header-dark prod">
             <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
@@ -55,7 +20,7 @@ if($subcats){
                 </div>
             </nav>
 <!-- /second navbar -->
- <?php } ?>
+<?php } ?>
  <div class="products">
 <div class="container products d-flex justify-content-center mt-50 mb-50">           
         <div class="row">
@@ -80,7 +45,7 @@ if($subcats){
                         <h3 class="mb-0 font-weight-semibold" style="color:white;">$<?php echo $product['price'] ?></h3>
                             <div class="text-muted mb-3" style="color: #a7b3bd !important">34 reviews</div>
                           
-                            <form action="products.php?catid=<?php echo $cat_id ?>" method="POST" style="display:flex;"> 
+                            <form action="http://localhost/EasyShop/front/views_html/products.php?catid=<?php echo $cat_id ?>" method="POST" style="display:flex;"> 
                               <?php if(isset($_SESSION['user_id'])) { ?>
                                 <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>">
                               <?php } ?>
@@ -157,4 +122,5 @@ if($subcats){
 </div>
             </div>
 <?php
-include "../includes/templates/footer.php";
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/footer.php");
+

@@ -15,7 +15,7 @@ include "init.php";
              <div class="info">
                Total Users
              </div>
-               <br><span><a href="users_index.php"><?php echo getTotalUsers() ?></a></span>
+               <br><span><a href="users_index.php"><?php echo countRows('users') ?></a></span>
           </div>
         </div>
         <div class="col-md-4">
@@ -24,7 +24,7 @@ include "init.php";
                <div class="info">
                  Total Products
                 </div>
-                 <br><span><a href="products_index.php"><?php echo getTotalProducts() ?></a></span>
+                 <br><span><a href="products_index.php"><?php echo countRows('products') ?></a></span>
              </div>
           </div>
         <div class="col-md-4">
@@ -33,7 +33,7 @@ include "init.php";
               <div class="info">
                 Total Orders
               </div>
-                <br><span><a href="orders_index.php"><?php echo getTotalOrders() ; ?></a></span>
+                <br><span><a href="orders_index.php"><?php echo countRows('orders') ; ?></a></span>
           </div>
         </div>
       </div>

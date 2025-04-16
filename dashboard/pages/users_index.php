@@ -1,30 +1,12 @@
 <?php
 session_start();
-if(isset($_SESSION['admin_id'])){
+if(!isset($_SESSION['admin_id'])){
+  header('Location: http://localhost/EasyShop/dashboard/pages/index.php');
+  exit;
+}
 include "init.php";
-$stmt = $pdo->prepare('SELECT * FROM users');
-$stmt->execute();
-$users = $stmt->fetchAll();
-$count = $stmt->rowCount();
-
-// Delete User
-$action = isset($_GET['action']) ? $_GET['action'] : NULL;
-if($action == 'delete'){
-    $id = isset($_GET['userid']) ? intval($_GET['userid']) : 0;
-    $stmt = $pdo->prepare('DELETE FROM users WHERE id = :id');
-    $stmt->bindParam(':id', $id);
-    $stmt->execute();
-    header('Location: users_index.php');
-    exit();
-}
-// Approve User
-if($action == 'approve'){
-    $id = isset($_GET['userid']) ? intval($_GET['userid']) : 0;
-    $stmt = $pdo->prepare('UPDATE users SET reg_status = 1 WHERE id = ?');
-    $stmt->execute(array($id));
-    header('Location: users_index.php');
-    exit();
-}
+$users = getAllRows('users');
+if(isset($_SESSION['success'])){ echo $_SESSION['success'] ; unset($_SESSION['success']);}
 
 ?>
 <div class="container">
@@ -53,17 +35,17 @@ if($action == 'approve'){
         if ($user['reg_status'] == 1 ){
           echo '<span class="badge badge-pill badge-success">Approved</span>';
         }else {
-            echo '<a href="users_index.php?action=approve&userid='.$user['id'].'" class="badge badge-pill badge-warning">Not Approved </a>';
+            echo '<a href="http://localhost/EasyShop/dashboard/controllers/UserController.php?action=approve&userid='.$user['id'].'" class="badge badge-pill badge-warning">Not Approved </a>';
         }
         echo '</td>';
         echo '<td>
-              <a href="users_index.php?action=delete&userid='.$user['id'].'"
+              <a href="http://localhost/EasyShop/dashboard/controllers/UserController.php?action=delete&userid='.$user['id'].'"
               class="btn btn-secondary btn-sm confirm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-user-xmark" style="color:black;"></i></a>
-              <a href="users_edit.php?userid='.$user['id'].'"
+              <a href="http://localhost/EasyShop/dashboard/controllers/UserController.php?action=edit&userid='.$user['id'].'"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-user-pen" style="color:black;"></i></a>
-              <a href="users_show.php?userid='.$user['id'].'"
+              <a href="http://localhost/EasyShop/dashboard/controllers/UserController.php?action=show&userid='.$user['id'].'"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-arrow-up-right-from-square" style="color:black;"></i></a>
         </td>';
@@ -75,8 +57,6 @@ if($action == 'approve'){
 </div>
 </div>
 
-<?php include "../includes/templates/footer.php";
-}else{
-  header('Location: index.php');
-}
+<?php 
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");
 ?>

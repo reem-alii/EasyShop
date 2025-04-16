@@ -1,15 +1,13 @@
 <?php
 session_start();
-if(isset($_SESSION['admin_id'])){
-  include "init.php";
-    
-  $id = intval($_GET['userid']);
-  $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-  $stmt->execute(array($id));
-  $row = $stmt->fetch();
-  if($row){
-    $stat = $row['reg_status'] ? '<span class="badge badge-pill badge-success">Approved</span>' : '<span class="badge badge-pill badge-warning">Not Approved </span>';
-    $src = $row['image'] ? $row['image'] : "https://img.freepik.com/premium-vector/user-icons-includes-user-icons-people-icons-symbols-premiumquality-graphic-design-elements_981536-526.jpg?semt=ais_hybrid" ;
+if(!isset($_SESSION['admin_id'])){
+  header('Location: http://localhost/EasyShop/dashboard/pages/index.php');
+  exit;
+}
+include "init.php";
+$row = $_SESSION['row'];
+$stat = $row['reg_status'] ? '<span class="badge badge-pill badge-success">Approved</span>' : '<span class="badge badge-pill badge-warning">Not Approved </span>';
+$src = $row['image'] ? $row['image'] : "https://img.freepik.com/premium-vector/user-icons-includes-user-icons-people-icons-symbols-premiumquality-graphic-design-elements_981536-526.jpg?semt=ais_hybrid" ;
 ?>
 <div class="container">
     <div class="row">
@@ -21,10 +19,10 @@ if(isset($_SESSION['admin_id'])){
                <p class="price"><?php echo $row['email'] ?></p>
                <p><?php echo $stat ; ?></p>
                <p class="buttons">
-                  <a href="users_index.php?action=delete&userid=<?php echo $row['id']?>"
+                  <a href="http://localhost/EasyShop/dashboard/controllers/UserController.php?action=delete&userid=<?php echo intval($row['id'])?>"
                   class="btn btn-secondary btn-sm confirm" data-inline="true">
                   <i class="fa-solid fa-user-xmark" style="color:black;"></i></a>
-                  <a href="users_edit.php?userid=<?php echo $row['id']?>"
+                  <a href="http://localhost/EasyShop/dashboard/controllers/UserController.php?action=edit&userid=<?php echo intval($row['id'])?>"
                   class="btn btn-secondary btn-sm" data-inline="true">
                   <i class="fa-solid fa-user-pen" style="color:black;"></i></a>
                   </p>
@@ -34,10 +32,5 @@ if(isset($_SESSION['admin_id'])){
 </div>
 
 
-<?php include "../includes/templates/footer.php";
-    }else{
-      echo "User not found";
-    }
-}else{
-  header('Location: index.php');
-}
+<?php 
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");

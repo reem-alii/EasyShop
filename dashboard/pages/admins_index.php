@@ -1,23 +1,12 @@
 <?php
 session_start();
-if(isset($_SESSION['admin_id'])){
-include "init.php";
-$stmt = $pdo->prepare('SELECT * FROM admins');
-$stmt->execute();
-$admins = $stmt->fetchAll();
-$count = $stmt->rowCount();
-
-// Delete Admin 
-$action = isset($_GET['action']) ? $_GET['action'] : NULL;
-if($action == 'delete'){
-    $id = isset($_GET['adminid']) ? intval($_GET['adminid']) : 0;
-    $stmt = $pdo->prepare('DELETE FROM admins WHERE id = :id');
-    $stmt->bindParam(':id', $id);
-    $stmt->execute();
-    header('Location: admins_index.php');
-    exit();
+if(!isset($_SESSION['admin_id'])){
+  header('Location: http://localhost/EasyShop/dashboard/pages/index.php');
+  exit;
 }
-
+include "init.php";
+$admins = getAllRows('admins');
+if(isset($_SESSION['success'])){ echo $_SESSION['success'] ; unset($_SESSION['success']);}
 ?>
 <div class="container">
     <div class="row">
@@ -41,13 +30,13 @@ if($action == 'delete'){
         echo '<td>'.$admin['first_name']. ' '.$admin['last_name'].'</td>';
         echo '<td>'.$admin['email'].'</td>';
         echo '<td>
-              <a href="admins_index.php?action=delete&adminid='.$admin['id'].'"
+              <a href="http://localhost/EasyShop/dashboard/controllers/AdminController.php?action=delete&adminid='.$admin['id'].'"
               class="btn btn-secondary btn-sm confirm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-user-xmark" style="color:black;"></i></a>
-              <a href="admins_edit.php?adminid='.$admin['id'].'"
+              <a href="http://localhost/EasyShop/dashboard/controllers/AdminController.php?action=edit&adminid='.$admin['id'].'"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-user-pen" style="color:black;"></i></a>
-              <a href="admins_show.php?adminid='.$admin['id'].'"
+              <a href="http://localhost/EasyShop/dashboard/controllers/AdminController.php?action=show&adminid='.$admin['id'].'"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-arrow-up-right-from-square" style="color:black;"></i></a>
         
@@ -59,9 +48,6 @@ if($action == 'delete'){
 </div>
 </div>
 </div>
+<?php
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");
 
-<?php include "../includes/templates/footer.php";
-}else{
-  header('Location: index.php');
-}
-?>

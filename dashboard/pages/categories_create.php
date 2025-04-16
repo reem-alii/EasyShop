@@ -54,7 +54,7 @@ if(isset($_SESSION['admin_id'])){
             <select name="parent_id" id="parent">
               <option value="0" selected>No parent/ Main Category</option>
               <?php 
-                 $cats = getCats() ;
+                 $cats = getMainCats() ;
                  foreach ($cats as $cat) {
                     echo "<option value='".$cat['id']."'>".$cat['name']."</option>";
                  }

@@ -96,7 +96,7 @@ function renameDuplicate($imagePath){
     $extension = pathinfo($imagePath, PATHINFO_EXTENSION);
     $imagename = pathinfo($imagePath, PATHINFO_FILENAME);
     $newname = $imagename . time() . '.' . $extension;
-    $image_path = "../../public/images/" . $newname;
+    $image_path = $_SERVER['DOCUMENT_ROOT']."/EasyShop/public/images/users/" . $newname;
     return $image_path;
 }
 // Validate Profile Image
@@ -104,7 +104,7 @@ function validateImage($image, &$imgerrors){
     if ($image["size"] > 400000) {
         $imgerrors .= "image size is too large/";
     }
-    $image_path = "../../public/images/" . basename($image["name"]);
+    $image_path = $_SERVER['DOCUMENT_ROOT']."/EasyShop/public/images/users/" . basename($image["name"]);
     $imgtype =  strtolower(pathinfo($image_path,PATHINFO_EXTENSION));
     if (!in_array($imgtype, ['jpg', 'png', 'jpeg'])){
       $imgerrors .= "Invalid, only JPG, JPEG, PNG files are allowed/";
@@ -114,6 +114,7 @@ function validateImage($image, &$imgerrors){
     }
     if(!$imgerrors){
         if(!move_uploaded_file($image["tmp_name"], $image_path)) $imgerrors .= "image failed to upload/";
+        $image_path = "http://localhost/EasyShop/public/images/users/".basename($image["name"]);
     }
     return $image_path;
 }

@@ -1,69 +1,5 @@
-<?php 
-include "init.php";
-if(isset($_SESSION['user_id'])){
-$email = $_SESSION['user_email'];
-error_reporting(E_ALL);
-ini_set('display_errors',1);
-$stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
-$stmt->execute(array($email));
-$user = $stmt->fetch();
-
-// Update information only
-if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['type'] == "info"){
-	$fname   = $_POST['first_name'];
-	$lname   = $_POST['last_name'];
-	$phone   = $_POST['phone'];
-	$address = $_POST['address'];
-
-	$errors_array = array();
-	$errors_array = profileValidation($fname, $lname, $phone, $address, $errors_array);
-	if(empty($errors_array)){
-		$status = editProfileQuery($user['id'], $fname, $lname, $phone, $address);
-		if($status){
-			echo "<div class='alert alert-success text-center'>Profile updated successfully, Reload to see Changes !</div>";
-		}else{
-			echo "<div class='alert alert-danger text-center'>Failed to update profile</div>";
-		}
-	}else{
-		foreach($errors_array as $err){
-			echo '<div class="alert alert-danger text-center">'.$err.'</div>';
-		}
-	}
-}
-// Update profile picture only
-if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['type'] == "pic"){
-	$image = $_FILES['image'];
-	$imgerrors = NULL;
-	$image_path = validateImage($image, $imgerrors);
-	if($imgerrors){
-		echo '<div class="alert alert-danger text-center">'.$imgerrors.'</div>';
-	}else{
-		$status = uploadImageQuery($user['id'], $image_path);
-		if($status){
-			echo "<div class='alert alert-success text-center'>Profile picture updated successfully, Refresh to see Changes</div>";
-		}else{
-			echo "<div class='alert alert-danger text-center'>Failed to update profile picture</div>";
-		}
-	}
-}
-// Update password only
-if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['type'] == "pass"){
-	$pass = $_POST['password'];
-	$repass = $_POST['password_confirmation'];
-	$passerror = NULL ;
-	$passerror = validatePassword($pass, $repass, $passerror);
-	if(!$passerror){
-		$status = updatePassword($user['id'], $pass);
-		if($status){
-			echo "<div class='alert alert-success text-center'>Password updated successfully</div>";
-		}else{
-			echo "<div class='alert alert-danger text-center'>Failed to update password</div>";
-		}
-	}else{
-		echo '<div class="alert alert-danger text-center">'.$passerror.'</div>';
-	}
-}
-?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/profile_edit.php");?>
+ 
  <div class="container profile">
 		<div class="main-body">
 			<div class="row">
@@ -76,7 +12,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['type'] == "pass"){
                             <img src="<?php echo $user['image'] ? $user['image'] : "https://bootdey.com/img/Content/avatar/avatar7.png" ; ?>" alt="Admin" class="rounded-circle" width="150" height="150">
                             <div class="mt-3">
 									<p>Change Profile Picture</p>
-                                    <form action ="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" enctype="multipart/form-data">
+                                    <form action ="http://localhost/EasyShop/front/views_html/profile_edit.php" method="POST" enctype="multipart/form-data">
 									    <input type="hidden" name="type" value="pic">
                                         <input type="file" name="image" required>   
 									    <button class="btn btn-primary" style="font-size: 25px;"><i class="fa-solid fa-camera"></i></button>
@@ -91,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['type'] == "pass"){
 				</div>
 				<div class="col-lg-8">
 					<div class="card">
-					  <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+					  <form action="http://localhost/EasyShop/front/views_html/profile_edit.php" method="POST">
 						<div class="card-body">
 							<input type="hidden" name="type" value="info">
 							<div class="row mb-3">
@@ -151,7 +87,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['type'] == "pass"){
 				<div class="col-md-8">
 					<div class="card">
 					<h5 class="card-title text-center" style="padding-top: 7px;">Change Password</h5>
-					<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+					<form action="http://localhost/EasyShop/front/views_html/profile_edit.php" method="POST">
 						<div class="card-body">
 						  <input type="hidden" name="type" value="pass">
 							<div class="row mb-3">
@@ -184,7 +120,4 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['type'] == "pass"){
 		</div>
      </div>
 <?php
-include "../includes/templates/footer.php";
-}else{
-	header("Location: login_signup.php");
-}
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/footer.php");

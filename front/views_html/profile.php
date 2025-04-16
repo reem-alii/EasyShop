@@ -1,16 +1,5 @@
-<?php
-include "init.php";
-if(isset($_SESSION['user_id'])){
-  $email = $_SESSION['user_email'];
-  $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
-  $stmt->execute(array($email));
-  $user = $stmt->fetch();
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/profile.php");?>
 
-  //orders
-  $orders = getOrders($user['id']);
-
-
-?>
 <div class="container profile">
     <div class="main-body">   
           <div class="row gutters-sm">
@@ -84,7 +73,7 @@ if(isset($_SESSION['user_id'])){
                   <hr>
                   <div class="row">
                     <div class="col-sm-12">
-                      <a class="btn btn-info" href="profile_edit.php">Edit</a>
+                      <a class="btn btn-info" href="http://localhost/EasyShop/front/views_html/profile_edit.php">Edit</a>
                     </div>
                   </div>
                 </div>
@@ -137,8 +126,4 @@ if(isset($_SESSION['user_id'])){
         </div>
     </div>  
 <?php
-include "../includes/templates/footer.php";
-}else{
-  header("Location: login_signup.php");
-}
-
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/footer.php");

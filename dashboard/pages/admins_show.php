@@ -1,13 +1,12 @@
 <?php
 session_start();
-if(isset($_SESSION['admin_id'])){
-  include "init.php";
-    
-  $id = intval($_GET['adminid']);
-  $stmt = $pdo->prepare("SELECT * FROM admins WHERE id = ?");
-  $stmt->execute(array($id));
-  $row = $stmt->fetch();
-  if($row){
+if(!isset($_SESSION['admin_id'])){
+  header('Location: http://localhost/EasyShop/dashboard/pages/index.php');
+  exit;
+}
+include "init.php";
+$row = $_SESSION['row'];
+
 ?>
 <div class="container">
     <div class="row">
@@ -31,10 +30,5 @@ if(isset($_SESSION['admin_id'])){
 </div>
 
 
-<?php include "../includes/templates/footer.php";
-    }else{
-      echo "Admin not found";
-    }
-}else{
-  header('Location: index.php');
-}
+<?php
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");

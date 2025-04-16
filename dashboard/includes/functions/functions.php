@@ -1,18 +1,72 @@
 <?php
+// Validation of creating admin or user 
+function validateUserOrAdmin($first_name, $last_name, $email, $password = NULL , $id = 0){
+    $errors_array = [];
+    if(strlen($first_name) < 3 || strlen($first_name) > 20 || empty($first_name)){
+       $errors_array [] = "First name is required and must be between 3 and 20 characters";
+    }
+    if(strlen($last_name) < 3 || strlen($last_name) > 20 || empty($last_name)){
+       $errors_array [] = "Last name is required and must be between 3 and 20 characters";
+    }
+    if(empty($email)){
+        $errors_array [] = "Email is required";
+    }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors_array [] = "Invalid email";
+    }elseif(uniqueValue('admins','email', $email, $id) > 0){
+        $errors_array [] = "Email must be unique";
+    }
+    if($password !== NULL){
+        if(strlen($password) < 3 || strlen($password) > 20 || empty($password)){
+            $errors_array [] = "Password is required and must be between 3 and 20 characters";
+        }
+    }   
+    return $errors_array ;
+}
+
+
 function uniqueValue($table, $colomn, $value, $id = 0){
     global $pdo ;
-    if($id == 0){
-       $stmt = $pdo->prepare("SELECT * FROM $table WHERE $colomn = ?");
-    }else{
-        $stmt = $pdo->prepare("SELECT * FROM $table WHERE $colomn = ? 
-                               EXCEPT SELECT * FROM $table WHERE id = $id");
-    }
+    $stmt = $pdo->prepare("SELECT * FROM $table WHERE $colomn = ? 
+                            EXCEPT SELECT * FROM $table WHERE id = $id");
     $stmt->execute(array($value));
     $stmt->fetch();
     $count = $stmt->rowCount();
     return $count ;
 }
-
+// Insert into admins or users
+function insertUserOrAdmin($first_name, $last_name, $email, $password, $table){
+    global $pdo ;
+    $stmt = $pdo->prepare("INSERT INTO $table(first_name, last_name, email, password) 
+      VALUES(:zfirst, :zlast, :zemail, :zpass)");
+      $stmt->execute(array(
+        'zfirst' => $first_name,
+        'zlast'  => $last_name,
+        'zemail' => $email,
+        'zpass'  => $password
+      ));
+}
+// Update user or admin
+function updateUserOrAdmin($table, $id, $first_name, $last_name, $email, $password = NULL){
+    global $pdo ;
+    if($password){
+          $stmt = $pdo->prepare("UPDATE $table SET first_name = :zfirst, last_name = :zlast, email = :zemail , password = :zpass
+                                  WHERE id = $id");  
+          $stmt->execute(array(
+            'zfirst' => $first_name,
+            'zlast'  => $last_name,
+            'zemail' => $email,
+            'zpass'  => sha1($password)
+          ));
+    }else{
+          $stmt = $pdo->prepare("UPDATE $table SET first_name = :zfirst, last_name = :zlast, email = :zemail
+                                 WHERE id = $id");            
+          $stmt->execute(array(
+            'zfirst' => $first_name,
+            'zlast'  => $last_name,
+            'zemail' => $email
+          ));
+    }
+}
 //get sub cats for certain category by id
 function getSubCats($id){
     global $pdo ;
@@ -20,41 +74,29 @@ function getSubCats($id){
     $stmt->execute(array($id));
     return $stmt->fetchAll();
 }
+
 // get category by id
-function getCat($id){
+function findCat($id){
     global $pdo ;
     $stmt = $pdo->prepare("SELECT * FROM categories WHERE id = ?");
     $stmt->execute(array($id));
     return $stmt->fetch();
 }
 // get all main categories
-function getCats(){
+function getMainCats(){
     global $pdo ;
     $stmt = $pdo->prepare("SELECT * FROM categories WHERE parent_id = 0");
     $stmt->execute();
     return $stmt->fetchAll();
 }
 // get total users 
-function getTotalUsers(){
+function countRows($table){
     global $pdo ;
-    $stmt = $pdo->prepare("SELECT COUNT(id) FROM users");
+    $stmt = $pdo->prepare("SELECT COUNT(id) FROM $table");
     $stmt->execute();
     return $stmt->fetchColumn();
 }
 // get total products
-function getTotalProducts(){
-    global $pdo ;
-    $stmt = $pdo->prepare("SELECT COUNT(id) FROM products");
-    $stmt->execute();
-    return $stmt->fetchColumn();
-}
-// get total orders 
-function getTotalOrders(){
-    global $pdo ;
-    $stmt = $pdo->prepare("SELECT COUNT(id) FROM orders");
-    $stmt->execute();
-    return $stmt->fetchColumn();
-}
 function allSubCats(){
     global $pdo ;
     $stmt = $pdo->prepare("SELECT * FROM categories WHERE parent_id <> 0");
@@ -74,7 +116,7 @@ function validateImage($image, &$errors_array, &$imgerror){
         $errors_array [] = "image size must be less than 400 KB";
         $imgerror .= "image size is too large/";
     }
-    $image_path = "../../public/images/" . basename($image["name"]);
+    $image_path = "../../public/images/products/" . basename($image["name"]);
     $imgtype =  strtolower(pathinfo($image_path,PATHINFO_EXTENSION));
     if (!in_array($imgtype, ['jpg', 'png', 'jpeg'])){
       $errors_array [] = "image must be in jpg, png or jpeg format";
@@ -108,18 +150,13 @@ function orderValidation($full_name, $address, $phone, &$errors_array){
     }
     return $errors_array ;
 }
-// Order Validation for Status and Payment Status 
-function statusValidation($status, $payment_status, &$errors_array){
-    if($status == "" || $payment_status == ""){
-        $errors_array[] = "Please fill in all fields";
-    }
-    if(!in_array($status, [ 'Processing', 'Pending', 'Delivered'])){
-        $errors_array[] = "Invalid Status, Can only be: Processing, Pending, Canceled, Delivered, or Refunded";
-    }
-    if(!in_array($payment_status, ['Pending', 'Completed', 'Failed', 'Canceled'])){
-        $errors_array[] = "Invalid Payment Status, Can only be: Pending, Completed, Failed, Canceled";
-    }
-    return $errors_array ;
+// check refunded items 
+function checkRefund($order_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM order_items WHERE status = 1 AND order_id = $order_id");
+    $stmt->execute();
+    $stmt->fetch();
+    return $stmt->rowCount();
 }
 // get order items of this order
 function getOrderItems($order_id){
@@ -138,7 +175,7 @@ function findProduct($id){
     return $stmt->fetch();
 }
 // refund item
-function refundItem($order_id, $item_id, $price){
+function refundItem($order_id, $item_id){
     global $pdo ;
     $stmt = $pdo->prepare("UPDATE order_items SET status = :zval 
                            WHERE product_id = :zprod AND order_id = :zord");
@@ -147,22 +184,38 @@ function refundItem($order_id, $item_id, $price){
     'zprod' => $item_id,
     'zord' => $order_id,
     ));
-    updateTotalCost($order_id, $price);
     updateProductQuantity($item_id);
 }
 // update total cost after refund item
-function updateTotalCost($order_id, $price){
-    global $pdo ;
-    $stmt = $pdo->prepare("UPDATE orders SET total_cost = total_cost - ? 
-                           WHERE id = $order_id");
-    $stmt->execute(array($price));
+// function updateTotalCost($order_id, $price){
+//     global $pdo ;
+//     $stmt = $pdo->prepare("UPDATE orders SET total_cost = total_cost - ? 
+//                            WHERE id = $order_id");
+//     $stmt->execute(array($price));
 
-}
+// }
 // update product quantity in database after refunding 
 function updateProductQuantity($product_id){
     global $pdo ;
     $stmt = $pdo->prepare("UPDATE products SET stock = stock + 1 WHERE id = $product_id");
     $stmt->execute();
+}
+// cancel order 
+function cancelOrder($order_id){
+    global $pdo ;
+    $stmt = $pdo->prepare("UPDATE orders SET status = ? WHERE id = $order_id");
+    $stmt->execute(array('Canceled'));
+    returnItemsToStock($order_id);
+}
+// refund order
+function refundOrder($order_id){
+    global $pdo ;
+    $items = getOrderItems($order_id);
+    foreach ($items as $item) {
+        if($item['status'] == 1){
+        refundItem($order_id, $item['product_id']);
+        }
+    }
 }
 // return items to stock after order Cancellation
 function returnItemsToStock($order_id){
@@ -173,4 +226,18 @@ function returnItemsToStock($order_id){
     foreach ($items as $item) {
         updateProductQuantity($item['product_id']);
     }
+}
+// get user by id 
+function findUser($id){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = $id");
+    $stmt->execute();
+    return $stmt->fetch();
+}
+// get All rows
+function getAllRows($table){
+    global $pdo ;
+    $stmt = $pdo->prepare("SELECT * FROM $table");
+    $stmt->execute();
+    return $stmt->fetchAll();
 }

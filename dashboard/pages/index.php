@@ -7,24 +7,31 @@ if(isset($_SESSION['admin_id'])){
   exit;
 }
 if($_SERVER['REQUEST_METHOD']=='POST'){
-    $email = $_POST['email'];
-    $password = sha1($_POST['password']);
+    $email    = $_POST['email'];
+    $password = $_POST['password'];
 
     //validation
     $errors_array = [];
-    if(empty($email) || empty($password)) {
-      $errors_array [] = "Please fill in all fields";
-    }
-    if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+    if(empty($email)) {
+      $errors_array [] = "Email is Required";
+      $emailerror = "Email is Required";
+    }elseif(!filter_var($email,FILTER_VALIDATE_EMAIL)){
       $errors_array [] = "Invalid email";
+      $emailerror = "Enter Valid Email";
     }
-    if(strlen($password) < 4){
-      $errors_array [] = "Password must be at least 4 characters";
+    if(empty($password)){
+      $errors_array [] = "Password is required";
+      $passerror = "Password is required";
+    }elseif(strlen($password) < 6){
+      $errors_array [] = "Password must be at least 6 characters";
+      $passerror = "Password must be at least 6 characters";
     }
     if(empty($errors_array)){
-
-        $stmt = $pdo->prepare('SELECT * FROM admins WHERE email = ? AND password = ? LIMIT 1');
-        $stmt->execute(array($email, $password));
+        $stmt = $pdo->prepare('SELECT * FROM admins WHERE email = :zemail AND password = :zpass LIMIT 1');
+        $stmt->execute(array(
+          ':zemail' => $email,
+          ':zpass'  => sha1($password)
+        ));
         $admin = $stmt->fetch();
         $count = $stmt->rowCount();
         if($count > 0){
@@ -36,8 +43,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             $error = 'Invalid email or password';
         }
     }else{
-      foreach($errors_array as $error){
-        echo "<div class='errors alert alert-danger'>".$error."</div>";
+      foreach($errors_array as $err){
+        echo "<div class='errors alert alert-danger'>".$err."</div>";
       }
     }
 }63
@@ -52,13 +59,14 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
     <div class="col-sm-10">
       <input type="text" name="email" class="form-control" id="staticEmail" value="<?php if(isset($_POST['email'])) echo $_POST['email']?>">
-        <div class="err" style="color:red;"><?php if(isset($error)) echo $error ; ?></div>
+        <div class="err" style="color:red;"><?php if(isset($emailerror)) echo $emailerror ; ?></div>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
     <div class="col-sm-10">
       <input type="password" name="password" class="form-control" id="inputPassword">
+      <div class="err" style="color:red;"><?php if(isset($passerror)) echo $passerror ; ?></div>
     </div>
   </div>
   <div class="form-group row">

@@ -100,7 +100,7 @@ if(isset($_SESSION['admin_id'])){
         <div class="col-sm-8">
             <select name="cat_id" id="cat">
               <?php 
-                 $cats = getCats() ;
+                 $cats = getMainCats() ;
                  foreach ($cats as $cat) {
                     echo "<option class='prodcat' onclick=\"filterSelection('".$cat['id']."')\" value='".$cat['id']."'>".$cat['name']."</option>";
                  }

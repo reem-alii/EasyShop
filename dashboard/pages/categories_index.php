@@ -38,20 +38,16 @@ if($action == 'delete'){
     <?php
       foreach ($cats as $cat) {
         echo '<tr>';
-        echo '<td'.
-             ($cat['parent_id'] == 0 ? ' class="bold" style="font-weight:bold; color: #44553f; font-style: italic";' : "") .
-             '>'.$cat['id'].'</td>';
-        echo '<td'.
-             ($cat['parent_id'] == 0 ? ' class="bold" style="font-weight:bold; color: #44553f; font-style: italic";' : "") .
-             '>'.$cat['name'].'</td>';
-        echo '<td>';
-             if ($cat['parent_id'] == 0){
-                 echo '<div class="no" style="font-style: italic;color: #166227;" >No parent(Main Category)</div>';
-             }else{
-                 $parent = getCat($cat['parent_id']);
-                 echo $parent['name'] ;
-             }
-        echo '</td>';
+        if($cat['parent_id'] == 0){
+              echo '<td class="bold" style="font-weight:bold; color: #44553f; font-style: italic";>' . $cat['id'] . '</td>';
+              echo '<td class="bold" style="font-weight:bold; color: #44553f; font-style: italic";>' . $cat['name'] . '</td>';
+              echo '<td> <div class="no" style="font-style: italic;color: #166227;" >No parent(Main Category)</div> </td>';
+        }else{
+              echo '<td>' . $cat['id'] . '</td>';
+              echo '<td>' . $cat['name'] . '</td>';
+              $parent = findCat($cat['parent_id']);
+              echo '<td>'.$parent['name'].'</td>' ;
+        }
         echo '<td>';
             $subs = getSubCats($cat['id']);
             if (count($subs) > 0){

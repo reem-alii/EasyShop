@@ -8,8 +8,8 @@ if(isset($_SESSION['admin_id'])){
   $stmt->execute(array($id));
   $row = $stmt->fetch();
   if($row){
-    $cat = getCat($row['cat_id']);
-    $sub = getCat($row['subcat_id']);
+    $cat = findCat($row['cat_id']);
+    $sub = findCat($row['subcat_id']);
 ?>
 <div class="container">
     <div class="row">

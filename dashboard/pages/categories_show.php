@@ -8,7 +8,7 @@ if(isset($_SESSION['admin_id'])){
   $stmt->execute(array($id));
   $row = $stmt->fetch();
   if($row){
-    $cat = getCat($row['parent_id']) ;
+    $cat = findCat($row['parent_id']) ;
     $parent = $cat['name'] ? $cat['name'] : "Main Category(no parent)";
     $subs = getSubCats($row['id']);
 ?>

@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 ?>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#5b8058c7;">
   <a class="navbar-brand" ><strong>EasyShop</strong></a>
@@ -9,29 +9,29 @@ session_start();
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="../pages/dashboard.php">Home</a>
+        <a class="nav-link" href="http://localhost/EasyShop/dashboard/pages/dashboard.php">Home</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="../pages/admins_index.php">Admins</a>
+        <a class="nav-link" href="http://localhost/EasyShop/dashboard/pages/admins_index.php">Admins</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="../pages/users_index.php">Users</a>
+        <a class="nav-link" href="http://localhost/EasyShop/dashboard/pages/users_index.php">Users</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="../pages/categories_index.php">Categories</a>
+        <a class="nav-link" href="http://localhost/EasyShop/dashboard/pages/categories_index.php">Categories</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="../pages/products_index.php">Products</a>
+        <a class="nav-link" href="http://localhost/EasyShop/dashboard/pages/products_index.php">Products</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="../pages/orders_index.php">Orders</a>
+        <a class="nav-link" href="http://localhost/EasyShop/dashboard/pages/orders_index.php">Orders</a>
       </li>
       <li class="nav-item active dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Account
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="../pages/logout.php">Logout</a>
+          <a class="dropdown-item" href="http://localhost/EasyShop/dashboard/pages/logout.php">Logout</a>
           <a class="dropdown-item" href="#">Another action</a>
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
