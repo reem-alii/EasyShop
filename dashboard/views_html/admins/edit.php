@@ -5,7 +5,7 @@
       </div>
       <div class="col-md-10">
       <h1 class="text-center">Edit Admin</h1>
-<form action="http://localhost/EasyShop/dashboard/views_html/admins/edit.php?action=update&adminid=<?php echo $admin['id'] ;?>" method="POST">
+<form action="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/admins/edit.php?action=update&adminid=<?php echo $admin['id'] ;?>" method="POST">
   <div class="form-group row">
     <input type="hidden" name="id" value="<?php echo $admin['id'] ?>">
     <label for="inputEmail3" class="col-sm-2 col-form-label">First Name</label>

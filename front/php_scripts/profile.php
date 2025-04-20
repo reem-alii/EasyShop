@@ -10,7 +10,7 @@ if(isset($_SESSION['user_id'])){
   //orders
   $orders = getOrders($user['id']);
 }else{
-    header("Location:http://localhost/EasyShop/front/views_html/login_signup.php");
+    header("Location:http://'.$_SERVER ['HTTP_HOST'].'/front/views_html/login_signup.php");
 }
 
 ?>

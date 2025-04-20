@@ -4,7 +4,7 @@
  <div class="row">
  <div class="col-md-8 create-prod">
       <h1 class="text-center">Edit Product</h1>
-  <form action="http://localhost/EasyShop/dashboard/views_html/products/edit.php?action=update&prodid=<?php echo $row['id'] ;?>" method="POST" enctype="multipart/form-data">
+  <form action="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/products/edit.php?action=update&prodid=<?php echo $row['id'] ;?>" method="POST" enctype="multipart/form-data">
   <div class="form-group row">
     <input type="hidden" name="id" value="<?php echo $row['id'] ;?>">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>

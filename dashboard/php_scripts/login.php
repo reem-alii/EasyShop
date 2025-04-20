@@ -1,7 +1,7 @@
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/init.php");
 if(isset($_SESSION['admin_id'])){
-    header('Location: http://localhost/EasyShop/dashboard/views_html/dashboard.php');
+    header('Location: http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/dashboard.php');
     exit;
 }
 if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         if($count > 0){
             $_SESSION['admin_id'] = $admin['id'];
             $_SESSION['admin_name'] = $admin['first_name'];
-            header('Location: http://localhost/EasyShop/dashboard/views_html/dashboard.php');
+            header('Location: http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/dashboard.php');
             exit;
         }else{
             $error = 'Invalid email or password';

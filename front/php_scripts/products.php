@@ -33,6 +33,6 @@ if(!empty($cat)){
 }else{
     $products = getAllProducts() ;
 }
-//header("Location:http://localhost/EasyShop/front/views_html/products.php?catid=0");
+//header("Location:http://'.$_SERVER ['HTTP_HOST'].'/front/views_html/products.php?catid=0");
 //exit;
 ?>

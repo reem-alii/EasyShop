@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="text-center">Categories Table</h1>
-            <a class="btn btn-outline-success" href="http://localhost/EasyShop/dashboard/views_html/categories/create.php">Create Category <i class="fa-solid fa-tag"></i> </a><br><br>
+            <a class="btn btn-outline-success" href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/categories/create.php">Create Category <i class="fa-solid fa-tag"></i> </a><br><br>
 <table class="table" style="background-color:#7d9a741f">
   <thead>
     <tr>
@@ -40,13 +40,13 @@
         ?>
             </td>
             <td>
-              <a href="http://localhost/EasyShop/dashboard/views_html/categories/index.php?action=delete&catid=<?php echo $cat['id']?>"
+              <a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/categories/index.php?action=delete&catid=<?php echo $cat['id']?>"
               class="btn btn-secondary btn-sm confirm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-trash" style="color:black;"></i></a>
-              <a href="http://localhost/EasyShop/dashboard/views_html/categories/edit.php?action=edit&catid=<?php echo $cat['id'] ?>"
+              <a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/categories/edit.php?action=edit&catid=<?php echo $cat['id'] ?>"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-pen" style="color:black;"></i></a>
-              <a href="http://localhost/EasyShop/dashboard/views_html/categories/show.php?action=show&catid=<?php echo $cat['id'] ?>"
+              <a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/categories/show.php?action=show&catid=<?php echo $cat['id'] ?>"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-arrow-up-right-from-square" style="color:black;"></i></a>
         

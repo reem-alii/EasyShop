@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-10">
       <h1 class="text-center">Create Product</h1>
-<form action="http://localhost/EasyShop/dashboard/views_html/products/create.php?action=insert" method="POST" enctype="multipart/form-data">
+<form action="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/products/create.php?action=insert" method="POST" enctype="multipart/form-data">
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-8">

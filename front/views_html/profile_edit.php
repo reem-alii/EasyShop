@@ -12,7 +12,7 @@
                             <img src="<?php echo $user['image'] ? $user['image'] : "https://bootdey.com/img/Content/avatar/avatar7.png" ; ?>" alt="Admin" class="rounded-circle" width="150" height="150">
                             <div class="mt-3">
 									<p>Change Profile Picture</p>
-                                    <form action ="http://localhost/EasyShop/front/views_html/profile_edit.php" method="POST" enctype="multipart/form-data">
+                                    <form action ="http://'.$_SERVER ['HTTP_HOST'].'/front/views_html/profile_edit.php" method="POST" enctype="multipart/form-data">
 									    <input type="hidden" name="type" value="pic">
                                         <input type="file" name="image" required>   
 									    <button class="btn btn-primary" style="font-size: 25px;"><i class="fa-solid fa-camera"></i></button>
@@ -27,7 +27,7 @@
 				</div>
 				<div class="col-lg-8">
 					<div class="card">
-					  <form action="http://localhost/EasyShop/front/views_html/profile_edit.php" method="POST">
+					  <form action="http://'.$_SERVER ['HTTP_HOST'].'/front/views_html/profile_edit.php" method="POST">
 						<div class="card-body">
 							<input type="hidden" name="type" value="info">
 							<div class="row mb-3">
@@ -87,7 +87,7 @@
 				<div class="col-md-8">
 					<div class="card">
 					<h5 class="card-title text-center" style="padding-top: 7px;">Change Password</h5>
-					<form action="http://localhost/EasyShop/front/views_html/profile_edit.php" method="POST">
+					<form action="http://'.$_SERVER ['HTTP_HOST'].'/front/views_html/profile_edit.php" method="POST">
 						<div class="card-body">
 						  <input type="hidden" name="type" value="pass">
 							<div class="row mb-3">
