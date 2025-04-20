@@ -1,4 +1,4 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/php_scripts/categories.php"); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/categories.php"); ?>
 
 <div class="container">
     <div class="row">
@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-10">
       <h1 class="text-center">Edit Category</h1>
-<form action="http://localhost/EasyShop/dashboard/views_html/categories/edit.php?action=update&catid=<?php echo $row['id'] ;?>" method="POST">
+<form action="http://localhost/dashboard/views_html/categories/edit.php?action=update&catid=<?php echo $row['id'] ;?>" method="POST">
   <div class="form-group row">
     <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
@@ -40,4 +40,4 @@
 </div>
 </div>
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/footer.php");

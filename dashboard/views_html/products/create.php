@@ -1,79 +1,12 @@
-<?php
-session_start();
-if(isset($_SESSION['admin_id'])){
-  include "init.php";
-  error_reporting(E_ALL);
-  ini_set('display_errors',1);
-   if($_SERVER['REQUEST_METHOD']== 'POST'){
-    $name = $_POST['name'];
-    $des = $_POST['description'];
-    $price = intval($_POST['price']);
-    $image = $_FILES['image'];
-    $cat = $_POST['cat_id'];
-    $sub = $_POST['subcat_id'];
-    $country = $_POST['country_made'];
-    $quantity = $_POST['stock'];
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/products.php"); ?>
 
-    //validation 
-    $errors_array = [];
-    if (strlen($name) < 3 || strlen($name) > 20){
-      $errors_array [] = "name must be between 3 and 20 characters";
-      $nerror =  "name must be between 3 and 20 characters";
-    }
-    if (strlen($des) < 3 ){
-        $errors_array [] = "name must be more than 3 characters";
-        $derror =  "name must be more than 3 characters";
-    }
-    if (!is_numeric($price) || empty($price)) {
-      $errors_array [] = "Invalid, Price is required and must be numeric";
-      $perror = "Invalid, Price is required and must be numeric";
-    }
-    if(empty($country)){
-        $errors_array [] = "country is required";
-        $cerror =  "country is required";
-    }
-    if (!is_numeric($quantity) || empty($quantity) || $quantity < 1) {
-      $errors_array [] = "Invalid, Quantity is required and must be numeric and more than 1";
-      $qerror = "Invalid, Quantity is required and must be numeric and more than 1";
-    }
-    //start image validation 
-    if($image){
-      $imgerror = "";
-      $image_path = validateImage($image, $errors_array, $imgerror);
-    }else{
-      $errors_array [] = "image is required";
-      $imgerror = "image is required";
-    }
-    if(empty($errors_array)) {
-      $stmt = $pdo->prepare("INSERT INTO products(name, description, price, Image, country_made, stock, cat_id, subcat_id, created_at) 
-      VALUES(:zname, :zdes, :zprice, :zimg, :zcountry, :zstock, :zcat, :zsub, :zcreated)");
-      $stmt->execute(array(
-        'zname'    => $name,
-        'zdes'     => $des,
-        'zprice'   => $price,
-        'zimg'     => $image_path,
-        'zcountry' => $country,
-        'zstock'   => $quantity,
-        'zcat'     => $cat,
-        'zsub'     => $sub,
-        'zcreated' => date("Y-m-d")
-      ));
-      $_POST = [];
-      echo "<div class='alert alert-success'>Product added successfully</div>";
-    }else{
-       foreach($errors_array as $error){
-           echo "<div class='alert alert-danger'>".$error."</div>";
-       }
-   }
-   }
-?>
 <div class="container create-prod">
     <div class="row">
       <div class="col-md-1">
       </div>
       <div class="col-md-10">
       <h1 class="text-center">Create Product</h1>
-<form action=<?php echo $_SERVER['PHP_SELF']?> method="POST" enctype="multipart/form-data">
+<form action="http://localhost/dashboard/views_html/products/create.php?action=insert" method="POST" enctype="multipart/form-data">
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-8">
@@ -154,8 +87,4 @@ if(isset($_SESSION['admin_id'])){
 </div>
 </div>
 <?php 
-include "../includes/templates/footer.php"; 
-}else{
-  header("Location: index.php");
-}
-?>
+include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/footer.php");

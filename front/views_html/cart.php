@@ -1,4 +1,4 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/cart.php"); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/cart.php"); ?>
 <h1 class="text-center">My Cart <i class="fa-solid fa-cart-shopping"></i></h1>
  <div class="cart">
    <div class="wrapper">
@@ -37,7 +37,7 @@
                                 <span>$<?php echo $product['price'] ;?></span>
                             </td>
                             <td>
-                              <form action="http://localhost/EasyShop/front/views_html/cart.php" method="POST" style="display:flex;">
+                              <form action="http://localhost/front/views_html/cart.php" method="POST" style="display:flex;">
                                 <input type="hidden" name="action" value="remove"> 
                                      <input type="hidden" name="product" value="<?php echo $cart ?>">
                               <button type="submit" style="background: none; border: none; color: inherit; text-decoration: none; cursor: pointer; padding:2px 2px; margin-left: 40px;"><i class="fa-solid fa-trash confirm"></i></button>
@@ -66,8 +66,8 @@
 </div>
 </div>
 <?php if(!empty($carts)){ ?>
-<form action="http://localhost/EasyShop/front/views_html/cart.php" method="POST" style="display:flex; margin-left: 655px;">
+<form action="http://localhost/front/views_html/cart.php" method="POST" style="display:flex; margin-left: 655px;">
  <input type="hidden" name="action" value="order">
  <h3 class="text-center"><button type="submit" class="btn btn-default" style="font-size: 15px;">Buy Now   <i class="fa-solid fa-bag-shopping" style="padding-left: 5px;"></i></button></h3>
 </form>
-<?php } include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/footer.php");
+<?php } include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/templates/footer.php");

@@ -1,67 +1,5 @@
-<?php
-session_start();
-if(isset($_SESSION['admin_id'])){
-include "init.php";
-error_reporting(E_ALL);
-ini_set('display_errors',1);
-$order_id = $_GET['order_id'];
-$stmt = $pdo->prepare('SELECT * FROM orders WHERE id = ?');
-$stmt->execute(array($order_id));
-$order = $stmt->fetch();
-$order_items = getOrderItems($order_id);
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/orders.php"); ?>
 
-// Edit order details 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $id = $order['id'];
-    $full_name = $_POST['full_name'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-    $status = $_POST['status'];
-    $payment_status = $_POST['payment_status'];
-    switch($status){
-        case 'Delivered':
-            $payment_status = 'Paid';
-            break;
-        case 'Canceled':
-            $payment_status = 'Canceled';
-            cancelOrder($id);
-            break;
-        case 'Refunded':
-            $payment_status = 'Refunded';
-            refundOrder($id);
-    }
-    $errors_array = [];
-    $errors_array = orderValidation($full_name, $phone, $address, $errors_array);
-    if(empty($errors_array)){
-        $stmt = $pdo->prepare("UPDATE orders SET full_name = ?, phone = ?, address = ?, status = ?, payment_status = ?
-                                WHERE id = $id");
-         $stmt->execute(array($full_name, $phone, $address, $status, $payment_status));
-         header('Location: orders_details.php?order_id='.$id);
-         exit;
-    }else{
-        foreach($errors_array as $err){
-            echo '<div class="alert alert-danger">'.$err.'</div>';
-        }
-    }
-}
-// Refund Item 
-if(isset($_GET['action']) && $_GET['action'] == 'refund'){
-    $item_id = $_GET['itemid'];
-    refundItem($order_id, $item_id);
-    $check = checkRefund($order_id);
-    if($check < 1){
-        $stmt = $pdo->prepare("UPDATE orders SET status = ? , payment_status = ? WHERE id = $order_id");
-        $stmt->execute(array('Refunded', 'Refunded'));
-    }else{
-        $stmt = $pdo->prepare("UPDATE orders SET status = ? , payment_status = ? WHERE id = $order_id");
-        $stmt->execute(array('Delivered', 'Paid'));
-    }
-    header('Location: orders_details.php?order_id='.$order_id);
-    exit;
-}
-
-
-?>
 <div class="container" style="max-width: 1300px;">
     <div class="row">
         <div class="col-md-6">
@@ -74,7 +12,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'refund'){
     </tr>
   </thead>
   <tbody>
-    <form action="orders_details.php?order_id=<?php echo $order['id']?>" method="POST">
+    <form action="http://localhost/dashboard/views_html/orders/details.php?action=update&order_id=<?php echo $order['id']?>" method="POST">
     <tr>
         <td>Order ID</td>
         <td><?php echo $order['id']; ?></td>
@@ -155,12 +93,6 @@ if(isset($_GET['action']) && $_GET['action'] == 'refund'){
             <label class="btn btn-secondary <?php if ($order['payment_status'] == 'Paid') echo "active focus"; ?>">
               <input type="radio" name="payment_status" value="Paid" <?php if ($order['payment_status'] == 'Paid') echo "checked"; ?>> Paid
             </label>
-            <!--<label class="btn btn-secondary <?php if ($order['payment_status'] == 'Canceled') echo "active focus"; ?>">
-              <input type="radio" name="payment_status" value="Canceled"> Canceled
-            </label>
-            <label class="btn btn-secondary <?php if ($order['payment_status'] == 'Refunded') echo "active focus"; ?>">
-              <input type="radio" name="payment_status" value="Refunded"> Refunded
-            </label>-->
         </div>
         <?php break;
           default :
@@ -196,7 +128,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'refund'){
           <?php 
           if($item['status'] == '1'){
             echo "<td><span class='badge badge-success'>Approved</span>
-                      <a class='sure' href='orders_details.php?order_id=".$order_id."&action=refund&itemid=".$item['product_id']."' title='Refund Item'><i class='fa-solid fa-person-walking-arrow-loop-left' style='padding:2px;color: red;background-color: white;border-radius:5px;'></i></a>
+                      <a class='sure' href='http://localhost/dashboard/views_html/orders/details.php?action=refund&order_id=".$order['id']."&itemid=".$item['product_id']."' title='Refund Item'><i class='fa-solid fa-person-walking-arrow-loop-left' style='padding:2px;color: red;background-color: white;border-radius:5px;'></i></a>
                   </td>";
           }else{
             echo "<td><span class='badge badge-danger'>Refunded</span>
@@ -227,8 +159,4 @@ if(isset($_GET['action']) && $_GET['action'] == 'refund'){
 </div>
 </div>
 
-<?php include "../includes/templates/footer.php";
-}else{
-  header('Location: index.php');
-}
-?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/footer.php");

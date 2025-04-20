@@ -107,20 +107,20 @@ function renameDuplicate($imagePath){
     $extension = pathinfo($imagePath, PATHINFO_EXTENSION);
     $imagename = pathinfo($imagePath, PATHINFO_FILENAME);
     $newname = $imagename . time() . '.' . $extension;
-    $image_path = "../../public/images/" . $newname;
+    $image_path = $_SERVER['DOCUMENT_ROOT']."/public/images/products/" . $newname;
     return $image_path;
 }
 // image validation 
 function validateImage($image, &$errors_array, &$imgerror){
     if ($image["size"] > 400000) {
-        $errors_array [] = "image size must be less than 400 KB";
         $imgerror .= "image size is too large/";
+        $errors_array [] = "image size must be less than 400 KB";
     }
-    $image_path = "../../public/images/products/" . basename($image["name"]);
+    $image_path = $_SERVER['DOCUMENT_ROOT']."/public/images/products/" . basename($image["name"]);
     $imgtype =  strtolower(pathinfo($image_path,PATHINFO_EXTENSION));
     if (!in_array($imgtype, ['jpg', 'png', 'jpeg'])){
-      $errors_array [] = "image must be in jpg, png or jpeg format";
-      $imgerror .= "Invalid, only JPG, JPEG, PNG files are allowed/";
+        $errors_array [] = "image must be in jpg, png or jpeg format";
+        $imgerror .= "Invalid, only JPG, JPEG, PNG files are allowed/";
     }
     if (file_exists($image_path)) {
       $image_path = renameDuplicate($image_path);
@@ -130,9 +130,10 @@ function validateImage($image, &$errors_array, &$imgerror){
             $errors_array [] = "image failed to upload";
             $imgerror .= "image failed to upload/" . $image['error'];
         }
+        $image_path = "http://localhost/public/images/users/".basename($image["name"]);
     }
-    
-    return $image_path;
+
+    return $image_path;    
 }
 // Order Validation for Update Order 
 function orderValidation($full_name, $address, $phone, &$errors_array){

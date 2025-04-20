@@ -1,4 +1,4 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/php_scripts/users.php"); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/users.php"); ?>
 
 <div class="container">
     <div class="row">
@@ -10,10 +10,10 @@
                <p class="price"><?php echo $row['email'] ?></p>
                <p><?php echo $stat ; ?></p>
                <p class="buttons">
-                  <a href="http://localhost/EasyShop/dashboard/views_html/users/index.php?action=delete&userid=<?php echo intval($row['id'])?>"
+                  <a href="http://localhost/dashboard/views_html/users/index.php?action=delete&userid=<?php echo intval($row['id'])?>"
                   class="btn btn-secondary btn-sm confirm" data-inline="true">
                   <i class="fa-solid fa-user-xmark" style="color:black;"></i></a>
-                  <a href="http://localhost/EasyShop/dashboard/views_html/users/edit.php?action=edit&userid=<?php echo intval($row['id'])?>"
+                  <a href="http://localhost/dashboard/views_html/users/edit.php?action=edit&userid=<?php echo intval($row['id'])?>"
                   class="btn btn-secondary btn-sm" data-inline="true">
                   <i class="fa-solid fa-user-pen" style="color:black;"></i></a>
                   </p>
@@ -22,4 +22,4 @@
     </div>
 </div>
 
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/footer.php");

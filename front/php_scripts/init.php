@@ -26,14 +26,14 @@ ini_set('session.gc_divisor', 100);
 # default system save path so Debian's cron job doesn't
 # try to clean it up. The web server daemon must have
 # read/write permissions to this directory.
-session_save_path($_SERVER['DOCUMENT_ROOT']."/EasyShop" . '/sessions');
+session_save_path($_SERVER['DOCUMENT_ROOT']."" . '/sessions');
 
 # Start the session
 session_start();
 
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/configration/connect.php");
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/header.php");
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/functions/functions.php");
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/queries/queries.php");
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/navbar.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/configration/connect.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/templates/header.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/functions/functions.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/queries/queries.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/templates/navbar.php");
 

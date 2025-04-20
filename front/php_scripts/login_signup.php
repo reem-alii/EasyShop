@@ -1,5 +1,5 @@
 <?php 
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/init.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/init.php");
 
 if(!isset($_SESSION['user_id'])){
 if($_SERVER['REQUEST_METHOD'] == "POST"){
@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 					// 	$status = addToCart($user_id, $cart, $product_price);
 					// }
 				//}
-                header("Location:http://localhost/EasyShop/front/views_html/index.php");
+                header("Location:http://localhost/front/views_html/index.php");
                 exit();
             }else{
                 $errors_array[] = "Invalid Email or Password";
@@ -53,7 +53,7 @@ if(!empty($errors_array)){
     }
 }
 }else{
-    header("Location:http://localhost/EasyShop/front/views_html/index.php");
+    header("Location:http://localhost/front/views_html/index.php");
 }
 
 ?>

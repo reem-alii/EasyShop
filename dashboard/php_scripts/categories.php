@@ -1,7 +1,7 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/php_scripts/init.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/init.php");
 if(!isset($_SESSION['admin_id'])){
-  header('Location: http://localhost/EasyShop/dashboard/views_html/login.php');
+  header('Location: http://localhost/dashboard/views_html/login.php');
   exit;
 }
 
@@ -18,7 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['actio
     $stmt = $pdo->prepare('DELETE FROM categories WHERE id = :id');
     $stmt->bindParam(':id', $id);
     $stmt->execute();
-    header('Location: http://localhost/EasyShop/dashboard/views_html/categories/index.php');
+    header('Location: http://localhost/dashboard/views_html/categories/index.php');
     exit;
 }
 
@@ -96,7 +96,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['actio
   $row = $stmt->fetch();
   if(!$row){
     $_SESSION['errors'] []= "Category not found";
-    header('Location: http://localhost/EasyShop/dashboard/views_html/categories/index.php');
+    header('Location: http://localhost/dashboard/views_html/categories/index.php');
     exit;   
   }else{
     $cat = findCat($row['parent_id']) ;

@@ -1,4 +1,4 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/login_signup.php"); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/login_signup.php"); ?>
 <div class="section">
 		<div class="container loginsign">
 			<div class="row full-height justify-content-center">
@@ -13,7 +13,7 @@
 									<div class="center-wrap">
 										<div class="section text-center">
 										 <h4 class="mb-4 pb-3">Log In</h4>
-                                           <form action="http://localhost/EasyShop/front/views_html/login_signup.php" method="POST">
+                                           <form action="http://localhost/front/views_html/login_signup.php" method="POST">
 											<div class="form-group">
 												<input type="email" name="logemail" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
 												<i class="input-icon uil uil-at"></i>
@@ -33,7 +33,7 @@
 									<div class="center-wrap">
 										<div class="section text-center">
 										  <h4 class="mb-4 pb-3">Sign Up</h4>
-                                           <form action="http://localhost/EasyShop/front/views_html/login_signup.php" method="POST">
+                                           <form action="http://localhost/front/views_html/login_signup.php" method="POST">
 											<div class="form-group">
 												<input type="text" name="logname" class="form-style" placeholder="Your Full Name" id="logname" >
 												<i class="input-icon uil uil-user"></i>
@@ -60,5 +60,5 @@
 	    </div>
 	</div>
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/footer.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/templates/footer.php");
 

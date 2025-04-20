@@ -1,5 +1,5 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/init.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/init.php");
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
 //   if(isset($_SESSION['user_id'])){
@@ -33,6 +33,6 @@ if(!empty($cat)){
 }else{
     $products = getAllProducts() ;
 }
-//header("Location:http://localhost/EasyShop/front/views_html/products.php?catid=0");
+//header("Location:http://localhost/front/views_html/products.php?catid=0");
 //exit;
 ?>

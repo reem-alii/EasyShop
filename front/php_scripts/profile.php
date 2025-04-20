@@ -1,5 +1,5 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/init.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/init.php");
 
 if(isset($_SESSION['user_id'])){
   $email = $_SESSION['user_email'];
@@ -10,7 +10,7 @@ if(isset($_SESSION['user_id'])){
   //orders
   $orders = getOrders($user['id']);
 }else{
-    header("Location:http://localhost/EasyShop/front/views_html/login_signup.php");
+    header("Location:http://localhost/front/views_html/login_signup.php");
 }
 
 ?>

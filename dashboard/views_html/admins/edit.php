@@ -1,11 +1,11 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/php_scripts/admins.php");?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/admins.php");?>
 <div class="container">
     <div class="row">
       <div class="col-md-1">
       </div>
       <div class="col-md-10">
       <h1 class="text-center">Edit Admin</h1>
-<form action="http://localhost/EasyShop/dashboard/views_html/admins/edit.php?action=update&adminid=<?php echo $admin['id'] ;?>" method="POST">
+<form action="http://localhost/dashboard/views_html/admins/edit.php?action=update&adminid=<?php echo $admin['id'] ;?>" method="POST">
   <div class="form-group row">
     <input type="hidden" name="id" value="<?php echo $admin['id'] ?>">
     <label for="inputEmail3" class="col-sm-2 col-form-label">First Name</label>
@@ -41,4 +41,4 @@
 </div>
 </div>
 <?php 
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/footer.php");

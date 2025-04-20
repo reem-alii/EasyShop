@@ -1,5 +1,5 @@
 <?php 
-include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/init.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/init.php");
 
 if(isset($_SESSION['user_id'])){
 $email = $_SESSION['user_email'];
@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$status = updateOrderQuery($order['id'], $full_name, $phone, $address);
 		if($status){
 			unset($_SESSION['order_id']);
-			header("Location:http://localhost/EasyShop/front/views_html/profile.php");
+			header("Location:http://localhost/front/views_html/profile.php");
 			exit;
 		}else{
 			echo "<div class='alert alert-danger text-center'>Failed to make order</div>";
@@ -36,5 +36,5 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	}
 }
 }else{
-    header("Location:http://localhost/EasyShop/front/views_html/login_signup.php");
+    header("Location:http://localhost/front/views_html/login_signup.php");
 }
