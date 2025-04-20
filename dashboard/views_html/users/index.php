@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="text-center">Users Table</h1>
-            <a class="btn btn-outline-success" href="http://localhost/dashboard/views_html/users/create.php">Create User <i class="fa-solid fa-user-plus"></i></a><br><br>
+            <a class="btn btn-outline-success" href="http://localhost/EasyShop/dashboard/views_html/users/create.php">Create User <i class="fa-solid fa-user-plus"></i></a><br><br>
 <table class="table" style="background-color:#7d9a741f">
   <thead>
     <tr>
@@ -26,17 +26,17 @@
         if ($user['reg_status'] == 1 ){
           echo '<span class="badge badge-pill badge-success">Approved</span>';
         }else {
-            echo '<a href="http://localhost/dashboard/views_html/users/index.php?action=approve&userid='.$user['id'].'" class="badge badge-pill badge-warning">Not Approved </a>';
+            echo '<a href="http://localhost/EasyShop/dashboard/views_html/users/index.php?action=approve&userid='.$user['id'].'" class="badge badge-pill badge-warning">Not Approved </a>';
         }
         echo '</td>';
         echo '<td>
-              <a href="http://localhost/dashboard/views_html/users/index.php?action=delete&userid='.$user['id'].'"
+              <a href="http://localhost/EasyShop/dashboard/views_html/users/index.php?action=delete&userid='.$user['id'].'"
               class="btn btn-secondary btn-sm confirm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-user-xmark" style="color:black;"></i></a>
-              <a href="http://localhost/dashboard/views_html/users/edit.php?action=edit&userid='.$user['id'].'"
+              <a href="http://localhost/EasyShop/dashboard/views_html/users/edit.php?action=edit&userid='.$user['id'].'"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-user-pen" style="color:black;"></i></a>
-              <a href="http://localhost/dashboard/views_html/users/show.php?action=show&userid='.$user['id'].'"
+              <a href="http://localhost/EasyShop/dashboard/views_html/users/show.php?action=show&userid='.$user['id'].'"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-arrow-up-right-from-square" style="color:black;"></i></a>
         </td>';

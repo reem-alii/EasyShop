@@ -130,7 +130,7 @@ function validateImage($image, &$errors_array, &$imgerror){
             $errors_array [] = "image failed to upload";
             $imgerror .= "image failed to upload/" . $image['error'];
         }
-        $image_path = "http://localhost/public/images/users/".basename($image["name"]);
+        $image_path = "http://localhost/EasyShop/public/images/users/".basename($image["name"]);
     }
 
     return $image_path;    

@@ -12,7 +12,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/init.php");
         $prod_id = $_POST['product'];
         $index = array_search($prod_id, $_SESSION['cart']);
         unset($_SESSION['cart'][$index]);
-        header("Location:http://localhost/front/views_html/cart.php");
+        header("Location:http://localhost/EasyShop/front/views_html/cart.php");
     }
 //if(isset($_SESSION['user_id'])){
 //   $id = $_SESSION['user_id'];
@@ -42,11 +42,11 @@ include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/init.php");
         $_SESSION['order_id'] = $order['id'];
         unset($_SESSION['cart']);
         //emptyCart($id);
-        header('Location:http://localhost/front/views_html/order_submit.php');
+        header('Location:http://localhost/EasyShop/front/views_html/order_submit.php');
         exit;
     } 
     }else{
-        header("Location:http://localhost/front/views_html/login_signup.php");
+        header("Location:http://localhost/EasyShop/front/views_html/login_signup.php");
         exit;
     }
   }

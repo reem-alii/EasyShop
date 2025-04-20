@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/init.php");
 if(!isset($_SESSION['admin_id'])){
-  header('Location: http://localhost/dashboard/views_html/login.php');
+  header('Location: http://localhost/EasyShop/dashboard/views_html/login.php');
   exit;
 }
 
@@ -18,7 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['actio
     $stmt = $pdo->prepare('DELETE FROM orders WHERE id = :id');
     $stmt->bindParam(':id', $id);
     $stmt->execute();
-    header('Location: http://localhost/dashboard/views_html/orders/index.php');
+    header('Location: http://localhost/EasyShop/dashboard/views_html/orders/index.php');
     exit;
 }
 
@@ -26,7 +26,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['actio
 if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['action'] == 'cancel'){
     $id = intval($_GET['order_id']) ;
     cancelOrder($id);
-    header('Location: http://localhost/dashboard/views_html/orders/index.php');
+    header('Location: http://localhost/EasyShop/dashboard/views_html/orders/index.php');
     exit;
 }
 
@@ -72,7 +72,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['action']) && $_GET['acti
            $stmt->execute(array($full_name, $phone, $address));
          }
          $_SESSION['success'] = "<div class='alert alert-success text-center'>Order updated successfully</div>";
-         header('Location: http://localhost/dashboard/views_html/orders/details.php?action=details&order_id='.$id);
+         header('Location: http://localhost/EasyShop/dashboard/views_html/orders/details.php?action=details&order_id='.$id);
          exit;
     }else{
         $_SESSION['errors'] = $errors_array;
@@ -98,7 +98,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['actio
         $stmt->execute(array('Delivered', 'Paid'));
     }
     $_SESSION['success'] = "<div class='alert alert-success text-center'>Item refunded successfully</div>";
-    header('Location: http://localhost/dashboard/views_html/orders/details.php?action=details&order_id='.$order_id);
+    header('Location: http://localhost/EasyShop/dashboard/views_html/orders/details.php?action=details&order_id='.$order_id);
     exit;
 }
 

@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/init.php");
 if(!isset($_SESSION['admin_id'])){
-  header('Location: http://localhost/dashboard/views_html/login.php');
+  header('Location: http://localhost/EasyShop/dashboard/views_html/login.php');
   exit;
 }
 
@@ -22,7 +22,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['actio
     $stmt = $pdo->prepare("DELETE FROM products WHERE id = :id");
     $stmt->bindParam(':id', $id);
     $stmt->execute();
-    header('Location: http://localhost/dashboard/views_html/products/index.php');
+    header('Location: http://localhost/EasyShop/dashboard/views_html/products/index.php');
     exit;
 }
 
@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['actio
     $id = isset($_GET['prodid']) ? intval($_GET['prodid']) : 0;
     $stmt = $pdo->prepare('UPDATE products SET approve = 1 WHERE id = ?');
     $stmt->execute(array($id));
-    header('Location: http://localhost/dashboard/views_html/products/index.php');
+    header('Location: http://localhost/EasyShop/dashboard/views_html/products/index.php');
     exit;
 }
 
@@ -107,7 +107,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['actio
     $row = $stmt->fetch();
     if(!$row){
         $_SESSION['errors'] []= "Invalid, Product not found";
-        header('Location: http://localhost/dashboard/views_html/products/index.php');
+        header('Location: http://localhost/EasyShop/dashboard/views_html/products/index.php');
         exit;
     }
 }
@@ -196,7 +196,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['actio
   $row = $stmt->fetch();
   if(!$row){
     $_SESSION['errors'] [] = "Product not found";
-    header('Location: http://localhost/dashboard/views_html/products/index.php');
+    header('Location: http://localhost/EasyShop/dashboard/views_html/products/index.php');
     exit;
   }else{
     $cat = findCat($row['cat_id']);

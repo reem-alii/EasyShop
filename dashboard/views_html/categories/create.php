@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-10">
       <h1 class="text-center">Create Category</h1>
-<form action="http://localhost/dashboard/views_html/categories/create.php?action=insert" method="POST">
+<form action="http://localhost/EasyShop/dashboard/views_html/categories/create.php?action=insert" method="POST">
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-8">

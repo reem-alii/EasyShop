@@ -45,7 +45,7 @@ if(isset($_SESSION['success_cart'])) { echo $_SESSION['success_cart'] ; unset($_
                         <h3 class="mb-0 font-weight-semibold" style="color:white;">$<?php echo $product['price'] ?></h3>
                             <div class="text-muted mb-3" style="color: #a7b3bd !important">34 reviews</div>
                           
-                            <form action="http://localhost/front/views_html/products.php?catid=<?php echo $cat_id ?>" method="POST" style="display:flex;"> 
+                            <form action="http://localhost/EasyShop/front/views_html/products.php?catid=<?php echo $cat_id ?>" method="POST" style="display:flex;"> 
                               <?php if(isset($_SESSION['user_id'])) { ?>
                                 <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>">
                               <?php } ?>
