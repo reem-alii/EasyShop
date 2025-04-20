@@ -8,10 +8,10 @@
                <h1><?php echo $row['first_name']. " " . $row['last_name']; ?></h1>
                <p class="price"><?php echo $row['email'] ?></p>
                <p class="buttons">
-                  <a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/admins/index.php?action=delete&adminid=<?php echo $row['id']?>"
+                  <a href="http://".$_SERVER ['HTTP_HOST']."/dashboard/views_html/admins/index.php?action=delete&adminid=<?php echo $row['id']?>"
                   class="btn btn-secondary btn-sm confirm" data-inline="true">
                   <i class="fa-solid fa-user-xmark" style="color:black;"></i></a>
-                  <a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/admins/edit.php?action=edit&adminid=<?php echo $row['id']?>"
+                  <a href="http://".$_SERVER ['HTTP_HOST']."/dashboard/views_html/admins/edit.php?action=edit&adminid=<?php echo $row['id']?>"
                   class="btn btn-secondary btn-sm" data-inline="true">
                   <i class="fa-solid fa-user-pen" style="color:black;"></i></a>
                   </p>

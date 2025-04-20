@@ -73,7 +73,7 @@
                   <hr>
                   <div class="row">
                     <div class="col-sm-12">
-                      <a class="btn btn-info" href="http://'.$_SERVER ['HTTP_HOST'].'/front/views_html/profile_edit.php">Edit</a>
+                      <a class="btn btn-info" href="http://".$_SERVER ['HTTP_HOST']."/front/views_html/profile_edit.php">Edit</a>
                     </div>
                   </div>
                 </div>

@@ -17,10 +17,10 @@
                        echo "</p>";
                     }   
                  ?>
-                 <p class="text-center"><a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/categories/index.php?action=delete&catid=<?php echo $row['id'] ; ?>"
+                 <p class="text-center"><a href="http://".$_SERVER ['HTTP_HOST']."/dashboard/views_html/categories/index.php?action=delete&catid=<?php echo $row['id'] ; ?>"
                      class="btn btn-secondary confirm" data-inline="true" style="background-color: #e83d2bc4;">
                      <i class="fa-solid fa-eraser" style="color:black;"></i></a>
-                     <a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/categories/edit.php?action=edit&catid=<?php echo $row['id'] ; ?>"
+                     <a href="http://".$_SERVER ['HTTP_HOST']."/dashboard/views_html/categories/edit.php?action=edit&catid=<?php echo $row['id'] ; ?>"
                      class="btn btn-secondary" data-inline="true" style="background-color: #0fbd0980;">
                      <i class="fa-solid fa-file-pen" style="color:black;"></i></a>
                  </p>

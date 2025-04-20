@@ -12,7 +12,7 @@
              <div class="info">
                Total Users
              </div>
-               <br><span><a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/users/index.php"><?php echo countRows('users') ?></a></span>
+               <br><span><a href="http://".$_SERVER ['HTTP_HOST']."/dashboard/views_html/users/index.php"><?php echo countRows('users') ?></a></span>
           </div>
         </div>
         <div class="col-md-4">
@@ -21,7 +21,7 @@
                <div class="info">
                  Total Products
                 </div>
-                 <br><span><a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/products/index.php"><?php echo countRows('products') ?></a></span>
+                 <br><span><a href="http://".$_SERVER ['HTTP_HOST']."/dashboard/views_html/products/index.php"><?php echo countRows('products') ?></a></span>
              </div>
           </div>
         <div class="col-md-4">
@@ -30,7 +30,7 @@
               <div class="info">
                 Total Orders
               </div>
-                <br><span><a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/orders/index.php"><?php echo countRows('orders') ; ?></a></span>
+                <br><span><a href="http://".$_SERVER ['HTTP_HOST']."/dashboard/views_html/orders/index.php"><?php echo countRows('orders') ; ?></a></span>
           </div>
         </div>
       </div>
