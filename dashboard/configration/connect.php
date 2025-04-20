@@ -1,7 +1,7 @@
 <?php
  $dsn = 'mysql:host=localhost;dbname=easy_shop';
- $username = '';
- $password = '';
+ $username = 'myuser';
+ $password = 'reemaliiii';
  $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
 
  try {

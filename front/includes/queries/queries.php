@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 function signUpQuery($first_name, $last_name, $email, $password){
     global $pdo ;
     $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, email, password)

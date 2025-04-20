@@ -1,9 +1,8 @@
 <?php 
+echo $_SERVER ['HTTP_HOST'] ."<br>";
+echo $_SERVER['DOCUMENT_ROOT'] ;
 error_reporting(E_ALL);
 ini_set('display_errors',1);
-ini_set('session.gc_maxlifetime', 2592000);
-// each client should remember their session id for EXACTLY 1 hour
-session_set_cookie_params(2592000);
 session_start();
 include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/configration/connect.php");
 include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/header.php");
