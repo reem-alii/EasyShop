@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 					// 	$status = addToCart($user_id, $cart, $product_price);
 					// }
 				//}
-                header("Location:http://'.$_SERVER ['HTTP_HOST'].'/front/views_html/index.php");
+                header("Location:http://".$_SERVER ['HTTP_HOST']."/front/views_html/index.php");
                 exit();
             }else{
                 $errors_array[] = "Invalid Email or Password";
@@ -53,7 +53,7 @@ if(!empty($errors_array)){
     }
 }
 }else{
-    header("Location:http://'.$_SERVER ['HTTP_HOST'].'/front/views_html/index.php");
+    header("Location:http://".$_SERVER ['HTTP_HOST']."/front/views_html/index.php");
 }
 
 ?>

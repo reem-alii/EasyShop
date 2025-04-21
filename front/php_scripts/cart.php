@@ -12,7 +12,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/init.php");
         $prod_id = $_POST['product'];
         $index = array_search($prod_id, $_SESSION['cart']);
         unset($_SESSION['cart'][$index]);
-        header("Location:http://'.$_SERVER ['HTTP_HOST'].'/front/views_html/cart.php");
+        header("Location:http://".$_SERVER ['HTTP_HOST']."/front/views_html/cart.php");
     }
 //if(isset($_SESSION['user_id'])){
 //   $id = $_SESSION['user_id'];
@@ -46,7 +46,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/init.php");
         exit;
     } 
     }else{
-        header("Location:http://'.$_SERVER ['HTTP_HOST'].'/front/views_html/login_signup.php");
+        header("Location:http://".$_SERVER ['HTTP_HOST']."/front/views_html/login_signup.php");
         exit;
     }
   }

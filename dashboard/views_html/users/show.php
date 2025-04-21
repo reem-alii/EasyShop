@@ -10,10 +10,10 @@
                <p class="price"><?php echo $row['email'] ?></p>
                <p><?php echo $stat ; ?></p>
                <p class="buttons">
-                  <a href="http://".$_SERVER ['HTTP_HOST']."/dashboard/views_html/users/index.php?action=delete&userid=<?php echo intval($row['id'])?>"
+                  <a href="http://<?= $_SERVER ['HTTP_HOST'] ?>/dashboard/views_html/users/index.php?action=delete&userid=<?php echo intval($row['id'])?>"
                   class="btn btn-secondary btn-sm confirm" data-inline="true">
                   <i class="fa-solid fa-user-xmark" style="color:black;"></i></a>
-                  <a href="http://".$_SERVER ['HTTP_HOST']."/dashboard/views_html/users/edit.php?action=edit&userid=<?php echo intval($row['id'])?>"
+                  <a href="http://<?= $_SERVER ['HTTP_HOST'] ?>/dashboard/views_html/users/edit.php?action=edit&userid=<?php echo intval($row['id'])?>"
                   class="btn btn-secondary btn-sm" data-inline="true">
                   <i class="fa-solid fa-user-pen" style="color:black;"></i></a>
                   </p>

@@ -114,7 +114,7 @@ function validateImage($image, &$imgerrors){
     }
     if(!$imgerrors){
         if(!move_uploaded_file($image["tmp_name"], $image_path)) $imgerrors .= "image failed to upload/";
-        $image_path = "http://'.$_SERVER ['HTTP_HOST'].'/public/images/users/".basename($image["name"]);
+        $image_path = "http://".$_SERVER ['HTTP_HOST']."/public/images/users/".basename($image["name"]);
     }
     return $image_path;
 }

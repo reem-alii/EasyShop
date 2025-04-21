@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-10">
       <h1 class="text-center">Create Admin</h1>
-<form action="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/admins/create.php?action=insert" method="POST">
+<form action="http://<?= $_SERVER ['HTTP_HOST'] ?>/dashboard/views_html/admins/create.php?action=insert" method="POST">
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">First Name</label>
     <div class="col-sm-8">

@@ -12,7 +12,7 @@ if(isset($_SESSION['order_errors'])){
 			<div class="row">
 				<div class="col-lg-8">
 					<div class="card">
-					  <form action="http://'.$_SERVER ['HTTP_HOST'].'/front/views_html/order_submit.php" method="POST">
+					  <form action="http://<?= $_SERVER ['HTTP_HOST'] ?>/front/views_html/order_submit.php" method="POST">
 						<div class="card-body">
 							<input type="hidden" name="type" value="info">
 							<div class="row mb-3">
