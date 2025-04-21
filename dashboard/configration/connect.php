@@ -7,6 +7,8 @@
  try {
     $pdo = new PDO($dsn, $username, $password, $options);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    /*$stmt = $pdo->prepare("DROP DATABASE easy_shop_db");
+    $stmt->execute();*/
     /*$stmt = $pdo->prepare("CREATE TABLE users(
                                 id int NOT NULL AUTO_INCREMENT,
                                 first_name varchar(255) NOT NULL,
@@ -52,6 +54,7 @@
                             CREATE TABLE orders(
                                 id int NOT NULL AUTO_INCREMENT,
                                 user_id int NOT NULL,
+                                email varchar(255),
                                 full_name varchar(255),
                                 phone varchar(255),
                                 address varchar(255),
