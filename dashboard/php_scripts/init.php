@@ -1,6 +1,4 @@
 <?php 
-//echo $_SERVER ['HTTP_HOST'] ."<br>";
-//echo $_SERVER['DOCUMENT_ROOT'] ;
 error_reporting(E_ALL);
 ini_set('display_errors',1);
 session_start();
