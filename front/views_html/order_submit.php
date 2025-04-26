@@ -1,4 +1,4 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/order_submit.php");
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/order_submit.php");
 if(isset($_SESSION['order_errors'])){
     foreach($_SESSION['order_errors'] as $error){
         echo $error;
@@ -12,7 +12,7 @@ if(isset($_SESSION['order_errors'])){
 			<div class="row">
 				<div class="col-lg-8">
 					<div class="card">
-					  <form action="http://<?= $_SERVER ['HTTP_HOST'] ?>/front/views_html/order_submit.php" method="POST">
+					  <form action="http://<?= $_SERVER ['HTTP_HOST'] ?>/EasyShop/front/views_html/order_submit.php" method="POST">
 						<div class="card-body">
 							<input type="hidden" name="type" value="info">
 							<div class="row mb-3">
@@ -84,4 +84,4 @@ if(isset($_SESSION['order_errors'])){
             </div>
 </div>
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/templates/footer.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/footer.php");

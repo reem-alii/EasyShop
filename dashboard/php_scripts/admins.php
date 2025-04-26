@@ -1,7 +1,7 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/init.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/php_scripts/init.php");
 if(!isset($_SESSION['admin_id'])){
-  header('Location: http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/login.php');
+  header('Location: http://'.$_SERVER ['HTTP_HOST'].'/EasyShop/dashboard/views_html/login.php');
   exit;
 }
 
@@ -18,7 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['actio
     $stmt = $pdo->prepare('DELETE FROM admins WHERE id = :id');
     $stmt->bindParam(':id', $id);
     $stmt->execute();
-    header('Location: http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/admins/index.php');
+    header('Location: http://'.$_SERVER ['HTTP_HOST'].'/EasyShop/dashboard/views_html/admins/index.php');
     exit;
 }
 

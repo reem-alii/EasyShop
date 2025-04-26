@@ -2,9 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors',1);
 session_start();
-include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/configration/connect.php");
-include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/header.php");
-include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/functions/functions.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/configration/connect.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/header.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/functions/functions.php");
 if(isset($_SESSION['admin_id'])){
-    include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/navbar.php");
+    include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/navbar.php");
 }

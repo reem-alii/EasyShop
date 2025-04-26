@@ -1,4 +1,4 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/orders.php"); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/php_scripts/orders.php"); ?>
 
 <div class="container" style="max-width: 1300px;">
     <div class="row">
@@ -12,7 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    <form action="http://<?= $_SERVER ['HTTP_HOST'] ?>/dashboard/views_html/orders/details.php?action=update&order_id=<?php echo $order['id']?>" method="POST">
+    <form action="http://<?= $_SERVER ['HTTP_HOST'] ?>/EasyShop/dashboard/views_html/orders/details.php?action=update&order_id=<?php echo $order['id']?>" method="POST">
     <tr>
         <td>Order ID</td>
         <td><?php echo $order['id']; ?></td>
@@ -128,7 +128,7 @@
           <?php 
           if($item['status'] == '1'){
             echo "<td><span class='badge badge-success'>Approved</span>
-                      <a class='sure' href='http://".$_SERVER ['HTTP_HOST']."/dashboard/views_html/orders/details.php?action=refund&order_id=".$order['id']."&itemid=".$item['product_id']."' title='Refund Item'><i class='fa-solid fa-person-walking-arrow-loop-left' style='padding:2px;color: red;background-color: white;border-radius:5px;'></i></a>
+                      <a class='sure' href='http://".$_SERVER ['HTTP_HOST']."/EasyShop/dashboard/views_html/orders/details.php?action=refund&order_id=".$order['id']."&itemid=".$item['product_id']."' title='Refund Item'><i class='fa-solid fa-person-walking-arrow-loop-left' style='padding:2px;color: red;background-color: white;border-radius:5px;'></i></a>
                   </td>";
           }else{
             echo "<td><span class='badge badge-danger'>Refunded</span>
@@ -159,4 +159,4 @@
 </div>
 </div>
 
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/footer.php");
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");

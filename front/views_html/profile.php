@@ -1,4 +1,4 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/profile.php");?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/profile.php");?>
 
 <div class="container profile">
     <div class="main-body">   
@@ -73,7 +73,7 @@
                   <hr>
                   <div class="row">
                     <div class="col-sm-12">
-                      <a class="btn btn-info" href="http://<?= $_SERVER ['HTTP_HOST'] ?>/front/views_html/profile_edit.php">Edit</a>
+                      <a class="btn btn-info" href="http://<?= $_SERVER ['HTTP_HOST'] ?>/EasyShop/front/views_html/profile_edit.php">Edit</a>
                     </div>
                   </div>
                 </div>
@@ -126,4 +126,4 @@
         </div>
     </div>  
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/templates/footer.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/footer.php");

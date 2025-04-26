@@ -1,10 +1,10 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/admins.php");?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/php_scripts/admins.php");?>
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <h1 class="text-center">Admins Table</h1>
-            <a class="btn btn-outline-success" href="http://<?= $_SERVER ['HTTP_HOST'] ?>/dashboard/views_html/admins/create.php">Create Admin <i class="fa-solid fa-user-plus"></i></a><br><br>
+            <a class="btn btn-outline-success" href="http://<?= $_SERVER ['HTTP_HOST'] ?>/EasyShop/dashboard/views_html/admins/create.php">Create Admin <i class="fa-solid fa-user-plus"></i></a><br><br>
 <table class="table" style="background-color:#7d9a741f">
   <thead>
     <tr>
@@ -22,13 +22,13 @@
         echo '<td>'.$admin['first_name']. ' '.$admin['last_name'].'</td>';
         echo '<td>'.$admin['email'].'</td>';
         echo '<td>
-              <a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/admins/index.php?action=delete&adminid='.$admin['id'].'"
+              <a href="http://'.$_SERVER ['HTTP_HOST'].'/EasyShop/dashboard/views_html/admins/index.php?action=delete&adminid='.$admin['id'].'"
               class="btn btn-secondary btn-sm confirm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-user-xmark" style="color:black;"></i></a>
-              <a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/admins/edit.php?action=edit&adminid='.$admin['id'].'"
+              <a href="http://'.$_SERVER ['HTTP_HOST'].'/EasyShop/dashboard/views_html/admins/edit.php?action=edit&adminid='.$admin['id'].'"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-user-pen" style="color:black;"></i></a>
-              <a href="http://'.$_SERVER ['HTTP_HOST'].'/dashboard/views_html/admins/show.php?action=show&adminid='.$admin['id'].'"
+              <a href="http://'.$_SERVER ['HTTP_HOST'].'/EasyShop/dashboard/views_html/admins/show.php?action=show&adminid='.$admin['id'].'"
               class="btn btn-secondary btn-sm" data-inline="true" style="background-color: #7d9a74;">
               <i class="fa-solid fa-arrow-up-right-from-square" style="color:black;"></i></a>
         
@@ -41,5 +41,5 @@
 </div>
 </div>
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/footer.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");
 

@@ -13,20 +13,21 @@ ini_set('display_errors',1);
     ini_set('session.gc_probability', 1);# Enable session garbage collection with a 1% chance of
     ini_set('session.gc_divisor', 100); # running on each session_start()
     ini_set('session.cookie_lifetime', 60*60*24*7);
+    # Our own session save path; it must be outside the
+    # default system save path so Debian's cron job doesn't
+    # try to clean it up. The web server daemon must have
+    # read/write permissions to this directory.*/
+    session_save_path($_SERVER['DOCUMENT_ROOT'].'/sessions');
+
     session_start(); # Start the session
 
 	
     /*var_dump(session_save_path());
-    var_dump(session_id());
-    # Our own session save path; it must be outside the
-    # default system save path so Debian's cron job doesn't
-    # try to clean it up. The web server daemon must have
-    # read/write permissions to this directory.
-    session_save_path($_SERVER['DOCUMENT_ROOT']."" . '/sessions');*/
+    var_dump(session_id());*/
 
-include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/configration/connect.php");
-include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/templates/header.php");
-include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/functions/functions.php");
-include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/queries/queries.php");
-include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/templates/navbar.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/configration/connect.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/header.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/functions/functions.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/queries/queries.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/navbar.php");
 

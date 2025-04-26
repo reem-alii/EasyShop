@@ -1,14 +1,12 @@
 <?php
- $dsn = 'mysql:host=localhost;dbname=easy_shop_db';
- $username = 'easy_shop_user';
- $password = 'test@123';
+ $dsn = 'mysql:host=localhost;dbname=easy_shop';
+ $username = '';
+ $password = '';
  $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
 
  try {
     $pdo = new PDO($dsn, $username, $password, $options);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    /*$stmt = $pdo->prepare("DROP DATABASE easy_shop_db");
-    $stmt->execute();*/
     /*$stmt = $pdo->prepare("CREATE TABLE users(
                                 id int NOT NULL AUTO_INCREMENT,
                                 first_name varchar(255) NOT NULL,

@@ -1,4 +1,4 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/login.php"); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/php_scripts/login.php"); ?>
 
 <div class="container log">
     <div class="row">
@@ -32,4 +32,4 @@
 </div>
 
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/footer.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");

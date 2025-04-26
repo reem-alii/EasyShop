@@ -1,4 +1,4 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/products.php"); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/php_scripts/products.php"); ?>
 
 <div class="container">
     <div class="row">
@@ -24,10 +24,10 @@
                  <p><span>Stock:</span> <?php echo $row['stock'] ; ?></p>
                  <p><span>Created at:</span> <?php echo $row['created_at'] ; ?></p>
                </div> 
-                 <p class="text-center"><a href="http://<?= $_SERVER ['HTTP_HOST'] ?>/dashboard/views_html/products/index.php?action=delete&prodid=<?php echo $row['id'] ; ?>"
+                 <p class="text-center"><a href="http://<?= $_SERVER ['HTTP_HOST'] ?>/EasyShop/dashboard/views_html/products/index.php?action=delete&prodid=<?php echo $row['id'] ; ?>"
                      class="btn btn-secondary confirm" data-inline="true" style="background-color: #e83d2bc4;">
                      <i class="fa-solid fa-eraser" style="color:black;"></i></a>
-                     <a href="http://<?= $_SERVER ['HTTP_HOST'] ?>/dashboard/views_html/products/edit.php?action=edit&prodid=<?php echo $row['id'] ; ?>"
+                     <a href="http://<?= $_SERVER ['HTTP_HOST'] ?>/EasyShop/dashboard/views_html/products/edit.php?action=edit&prodid=<?php echo $row['id'] ; ?>"
                      class="btn btn-secondary" data-inline="true" style="background-color: #0fbd0980;">
                      <i class="fa-solid fa-file-pen" style="color:black;"></i></a>
                  </p>
@@ -35,4 +35,4 @@
         </div>
 </div>
 
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/footer.php");
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");

@@ -1,4 +1,4 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/php_scripts/categories.php"); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/php_scripts/categories.php"); ?>
 
 <div class="container">
     <div class="row">
@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-10">
       <h1 class="text-center">Create Category</h1>
-<form action="http://<?= $_SERVER ['HTTP_HOST'] ?>/dashboard/views_html/categories/create.php?action=insert" method="POST">
+<form action="http://<?= $_SERVER ['HTTP_HOST'] ?>/EasyShop/dashboard/views_html/categories/create.php?action=insert" method="POST">
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-8">
@@ -37,4 +37,4 @@
 </div>
 </div>
 <?php
-include_once($_SERVER['DOCUMENT_ROOT']."/dashboard/includes/templates/footer.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/dashboard/includes/templates/footer.php");

@@ -1,4 +1,4 @@
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/front/php_scripts/init.php"); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/php_scripts/init.php"); ?>
             <div class="container hero">
                 <div class="row">
                     <div class="col-md-8 offset-md-2">
@@ -49,4 +49,4 @@
                       <!-- comment here? -->  <div class="embed-responsive embed-responsive-16by9"></div>
                     </div>
 				</div>
-<?php include_once($_SERVER['DOCUMENT_ROOT']."/front/includes/templates/footer.php");
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/EasyShop/front/includes/templates/footer.php");
